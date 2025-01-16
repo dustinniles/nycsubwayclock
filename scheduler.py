@@ -6,13 +6,7 @@ import subprocess
 from datetime import datetime, time as dtime
 import requests
 from pytz import timezone
-
-# Ensure psutil is installed
-try:
-    import psutil
-except ImportError:
-    os.system('pip install psutil')
-    import psutil
+import psutil
 
 # Path to the virtual environment and display_text.py script
 venv_path = "/root/venv"
@@ -60,14 +54,21 @@ def is_time_between(start_time, end_time):
 # Function to check if a process is running
 def is_process_running(script_name):
     for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-        if proc.info['cmdline']:  # Ensure cmdline is not None
-            if script_name in proc.info['cmdline']:
-                return True
+        if proc.info['cmdline'] and script_name in proc.info['cmdline']:
+            return True
     return False
+
+# Function to terminate any running instances of display_text.py
+def terminate_running_instances(script_name):
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+        if proc.info['cmdline'] and script_name in proc.info['cmdline']:
+            proc.terminate()
+            proc.wait()
 
 # Signal handler to terminate the script
 def signal_handler(sig, frame):
     global process
+    terminate_running_instances("display_text.py")
     if process is not None:
         process.terminate()
         process = None
