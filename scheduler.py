@@ -12,6 +12,7 @@ import psutil
 venv_path = "/root/venv"
 python_bin = os.path.join(venv_path, "bin", "python")
 display_text_script = "/root/nycsubwayclock/display_text.py"
+lock_file_path = "/tmp/display_text.lock"
 
 # Ensure the site-packages from the virtual environment are included
 site_packages = os.path.join(venv_path, 'lib', 'python3.11', 'site-packages')
@@ -58,17 +59,20 @@ def is_process_running(script_name):
             return True
     return False
 
-# Function to terminate any running instances of display_text.py
-def terminate_running_instances(script_name):
-    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-        if proc.info['cmdline'] and script_name in proc.info['cmdline']:
-            proc.terminate()
-            proc.wait()
+# Function to create a lock file
+def create_lock_file():
+    with open(lock_file_path, 'w') as lock_file:
+        lock_file.write(str(os.getpid()))
+
+# Function to remove the lock file
+def remove_lock_file():
+    if os.path.exists(lock_file_path):
+        os.remove(lock_file_path)
 
 # Signal handler to terminate the script
 def signal_handler(sig, frame):
     global process
-    terminate_running_instances("display_text.py")
+    remove_lock_file()
     if process is not None:
         process.terminate()
         process = None
@@ -93,21 +97,23 @@ def main():
             end_time = dtime(22, 0)  # 10 PM local time
             
             if is_time_between(sunrise, end_time):
-                if not is_process_running("display_text.py"):
-                    # Start the script
+                if not os.path.exists(lock_file_path):
+                    # Start the script and create a lock file
                     process = subprocess.Popen([python_bin, display_text_script])
+                    create_lock_file()
                     print("Script started.")
                 else:
                     print("Script is already running.")
             else:
                 if process is not None:
-                    # Stop the script
+                    # Stop the script and remove the lock file
                     process.terminate()
                     process = None
+                    remove_lock_file()
                     print("Script stopped.")
                 else:
                     print("Script is not running, waiting for sunrise.")
-            
+                
             time.sleep(60)  # Check every minute
         except requests.RequestException as e:
             print(f"Request error: {e}")
