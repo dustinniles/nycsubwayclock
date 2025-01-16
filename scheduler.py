@@ -1,3 +1,9 @@
+"""
+This script manages the execution of the display_text.py script based on the
+sunrise and sunset times in New York City. It ensures that only one instance
+of display_text.py is running at any given time using a lock file mechanism.
+"""
+
 import os
 import sys
 import time
@@ -21,8 +27,19 @@ sys.path.insert(0, site_packages)
 # Initialize process variable
 process = None
 
-# Function to get sunrise and sunset times
 def get_sun_times(latitude, longitude):
+    """
+    Retrieves sunrise and sunset times for a given latitude and longitude. Right now it's a random spot in BK newar Prospect Park. 
+    I can't imagine if you're interested in the NYC Subway that your subrise.sunset would be meaningfully different, but if you want to be exact,
+    feel free to change it.
+
+    Args:
+        latitude (float): The latitude of the location.
+        longitude (float): The longitude of the location.
+
+    Returns:
+        tuple: A tuple containing the local sunrise and sunset times as datetime.time objects.
+    """
     url = f"https://api.sunrise-sunset.org/json?lat={latitude}&lng={longitude}&formatted=0"
     print(f"Requesting sunrise and sunset times from: {url}")
     response = requests.get(url)
@@ -43,8 +60,17 @@ def get_sun_times(latitude, longitude):
     
     return sunrise_local, sunset_local
 
-# Function to check if current time is between two times
 def is_time_between(start_time, end_time):
+    """
+    Checks if the current time is between the specified start and end times.
+
+    Args:
+        start_time (datetime.time): The start time.
+        end_time (datetime.time): The end time.
+
+    Returns:
+        bool: True if the current time is between start_time and end_time, False otherwise.
+    """
     current_time = datetime.now(timezone('America/New_York')).time()
     print(f"Current time: {current_time}")
     if start_time <= end_time:
@@ -52,25 +78,43 @@ def is_time_between(start_time, end_time):
     else:  # Over midnight
         return start_time <= current_time or current_time <= end_time
 
-# Function to check if a process is running
 def is_process_running(script_name):
+    """
+    Checks if a process with the given script name is currently running.
+
+    Args:
+        script_name (str): The name of the script to check.
+
+    Returns:
+        bool: True if the process is running, False otherwise.
+    """
     for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
         if proc.info['cmdline'] and script_name in proc.info['cmdline']:
             return True
     return False
 
-# Function to create a lock file
 def create_lock_file():
+    """
+    Creates a lock file to indicate that the display_text.py script is running.
+    """
     with open(lock_file_path, 'w') as lock_file:
         lock_file.write(str(os.getpid()))
 
-# Function to remove the lock file
 def remove_lock_file():
+    """
+    Removes the lock file to indicate that the display_text.py script has stopped.
+    """
     if os.path.exists(lock_file_path):
         os.remove(lock_file_path)
 
-# Signal handler to terminate the script
 def signal_handler(sig, frame):
+    """
+    Handles termination signals to gracefully stop the script and clean up resources.
+
+    Args:
+        sig (int): The signal number.
+        frame (frame object): The current stack frame.
+    """
     global process
     remove_lock_file()
     if process is not None:
@@ -83,8 +127,12 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
-# Main function
 def main():
+    """
+    The main function that controls the execution of the display_text.py script
+    based on sunrise and sunset times in New York City. It ensures that only one
+    instance of display_text.py is running at any given time using a lock file mechanism.
+    """
     global process
     latitude = 40.682387
     longitude = -73.963004
