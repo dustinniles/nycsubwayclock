@@ -1,21 +1,30 @@
 import os
 import sys
-import subprocess
-import signal
 import time
-from datetime import datetime, timedelta, time as dtime
-from pytz import timezone
+import signal
+import subprocess
+from datetime import datetime, time as dtime
 import requests
+from pytz import timezone
 
-# Set up the virtual environment
-venv_path = '/root/venv'
-python_bin = os.path.join(venv_path, 'bin', 'python')
-os.environ['PATH'] = os.path.join(venv_path, 'bin') + ':' + os.environ.get('PATH', '/usr/bin:/bin')
-os.environ['VIRTUAL_ENV'] = venv_path
+# Ensure psutil is installed
+try:
+    import psutil
+except ImportError:
+    os.system('pip install psutil')
+    import psutil
+
+# Path to the virtual environment and display_text.py script
+venv_path = "/root/venv"
+python_bin = os.path.join(venv_path, "bin", "python")
+display_text_script = "/root/nycsubwayclock/display_text.py"
 
 # Ensure the site-packages from the virtual environment are included
 site_packages = os.path.join(venv_path, 'lib', 'python3.11', 'site-packages')
 sys.path.insert(0, site_packages)
+
+# Initialize process variable
+process = None
 
 # Function to get sunrise and sunset times
 def get_sun_times(latitude, longitude):
@@ -48,6 +57,14 @@ def is_time_between(start_time, end_time):
     else:  # Over midnight
         return start_time <= current_time or current_time <= end_time
 
+# Function to check if a process is running
+def is_process_running(script_name):
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+        if proc.info['cmdline']:  # Ensure cmdline is not None
+            if script_name in proc.info['cmdline']:
+                return True
+    return False
+
 # Signal handler to terminate the script
 def signal_handler(sig, frame):
     global process
@@ -75,9 +92,9 @@ def main():
             end_time = dtime(22, 0)  # 10 PM local time
             
             if is_time_between(sunrise, end_time):
-                if process is None:
+                if not is_process_running("display_text.py"):
                     # Start the script
-                    process = subprocess.Popen([python_bin, "/root/rpi-rgb-led-matrix/display_text.py"])
+                    process = subprocess.Popen([python_bin, display_text_script])
                     print("Script started.")
                 else:
                     print("Script is already running.")

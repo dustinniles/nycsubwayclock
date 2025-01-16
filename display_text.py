@@ -9,8 +9,8 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import time
 import io
 
-trips_path = '/root/nyct-gtfs/nyct_gtfs/gtfs_static/trips.txt'
-stops_path = '/root/nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt'
+trips_path = '/root/nycsubwayclock/nyct-gtfs/nyct_gtfs/gtfs_static/trips.txt'
+stops_path = '/root/nycsubwayclock/nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt'
 
 # Verify file access
 try:
@@ -97,7 +97,7 @@ def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
-font_path = "/root/MTA.ttf"
+font_path = "/root/nycsubwayclock/MTA.ttf"
 if not os.path.exists(font_path):
     raise FileNotFoundError(f"Font file not found: {font_path}")
 
