@@ -10,3 +10,9 @@
 2025-01-16 15:53:51,332 - __main__ - INFO - Sunset (local time): 16:56:07
 2025-01-16 15:53:51,334 - __main__ - INFO - Current time: 15:53:51.334051
 2025-01-16 15:53:51,334 - __main__ - INFO - Script is already running.
+2025-01-16 15:54:51,335 - __main__ - INFO - Checking sunrise and sunset times...
+2025-01-16 15:54:51,335 - __main__ - INFO - Requesting sunrise and sunset times from: https://api.sunrise-sunset.org/json?lat=40.682387&lng=-73.963004&formatted=0
+2025-01-16 15:54:51,795 - __main__ - INFO - Sunrise (local time): 07:15:23
+2025-01-16 15:54:51,795 - __main__ - INFO - Sunset (local time): 16:56:07
+2025-01-16 15:54:51,796 - __main__ - INFO - Current time: 15:54:51.795917
+2025-01-16 15:54:51,796 - __main__ - INFO - Script is already running.
