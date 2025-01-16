@@ -20,3 +20,7 @@ This project is designed to display NYC subway information on an LED matrix usin
      scheduler.py simply uses a date and time API to check every minute if it's between sunrise and 10PM and runs displaytext.py if so. You can probably leave the coordinates the same but you'll need to customize for when you want the screen to go on and off.
 
 4. See the subdirectories for more info. For instance, display_text.py is set for a GPIO slowdown for a Raspebrry Pi 4, and set for 2 chained 32x64 LED matrices. You may need different settings.
+
+
+##NOTE
+I know absolute diddly squat about coding. Really, nothing. GitHub Copilot wrote 99% of this. If you've got tips, tricks, suggestions, etc. I'm all ears. I'm still running into some slight flickering issues, and will update the code if I find a cure. But I wanted to put the code up so that someone like me, who knows nothing, could get this up and running (hopefully) fairly painlessly. I built this as a Christmas gift for my girlfriend, but I feel like every New Yorker should have one of these in their homes.
