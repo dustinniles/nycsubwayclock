@@ -21,15 +21,16 @@ display_text_script = "/root/nycsubwayclock/display_text.py"
 lock_file_path = "/tmp/display_text.lock"
 
 # Ensure the site-packages from the virtual environment are included
-site_packages = os.path.join(venv_path, 'lib', 'python3.11', 'site-packages')
+site_packages = os.path.join(venv_path, "lib", "python3.11", "site-packages")
 sys.path.insert(0, site_packages)
 
 # Initialize process variable
 process = None
 
+
 def get_sun_times(latitude, longitude):
     """
-    Retrieves sunrise and sunset times for a given latitude and longitude. Right now it's a random spot in BK newar Prospect Park. 
+    Retrieves sunrise and sunset times for a given latitude and longitude. Right now it's a random spot in BK newar Prospect Park.
     I can't imagine if you're interested in the NYC Subway that your subrise.sunset would be meaningfully different, but if you want to be exact,
     feel free to change it.
 
@@ -45,20 +46,31 @@ def get_sun_times(latitude, longitude):
     response = requests.get(url)
     response.raise_for_status()
     data = response.json()
-    
+
     # Extract sunrise and sunset times in UTC
-    sunrise_utc = datetime.fromisoformat(data['results']['sunrise']).time()
-    sunset_utc = datetime.fromisoformat(data['results']['sunset']).time()
-    
+    sunrise_utc = datetime.fromisoformat(data["results"]["sunrise"]).time()
+    sunset_utc = datetime.fromisoformat(data["results"]["sunset"]).time()
+
     # Convert times to the local time zone (America/New_York)
-    ny_tz = timezone('America/New_York')
-    sunrise_local = datetime.combine(datetime.utcnow(), sunrise_utc).replace(tzinfo=timezone('UTC')).astimezone(ny_tz).time()
-    sunset_local = datetime.combine(datetime.utcnow(), sunset_utc).replace(tzinfo=timezone('UTC')).astimezone(ny_tz).time()
-    
+    ny_tz = timezone("America/New_York")
+    sunrise_local = (
+        datetime.combine(datetime.utcnow(), sunrise_utc)
+        .replace(tzinfo=timezone("UTC"))
+        .astimezone(ny_tz)
+        .time()
+    )
+    sunset_local = (
+        datetime.combine(datetime.utcnow(), sunset_utc)
+        .replace(tzinfo=timezone("UTC"))
+        .astimezone(ny_tz)
+        .time()
+    )
+
     print(f"Sunrise (local time): {sunrise_local}")
     print(f"Sunset (local time): {sunset_local}")
-    
+
     return sunrise_local, sunset_local
+
 
 def is_time_between(start_time, end_time):
     """
@@ -71,12 +83,13 @@ def is_time_between(start_time, end_time):
     Returns:
         bool: True if the current time is between start_time and end_time, False otherwise.
     """
-    current_time = datetime.now(timezone('America/New_York')).time()
+    current_time = datetime.now(timezone("America/New_York")).time()
     print(f"Current time: {current_time}")
     if start_time <= end_time:
         return start_time <= current_time <= end_time
     else:  # Over midnight
         return start_time <= current_time or current_time <= end_time
+
 
 def is_process_running(script_name):
     """
@@ -88,17 +101,19 @@ def is_process_running(script_name):
     Returns:
         bool: True if the process is running, False otherwise.
     """
-    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-        if proc.info['cmdline'] and script_name in proc.info['cmdline']:
+    for proc in psutil.process_iter(["pid", "name", "cmdline"]):
+        if proc.info["cmdline"] and script_name in proc.info["cmdline"]:
             return True
     return False
+
 
 def create_lock_file():
     """
     Creates a lock file to indicate that the display_text.py script is running.
     """
-    with open(lock_file_path, 'w') as lock_file:
+    with open(lock_file_path, "w") as lock_file:
         lock_file.write(str(os.getpid()))
+
 
 def remove_lock_file():
     """
@@ -106,6 +121,7 @@ def remove_lock_file():
     """
     if os.path.exists(lock_file_path):
         os.remove(lock_file_path)
+
 
 def signal_handler(sig, frame):
     """
@@ -123,9 +139,11 @@ def signal_handler(sig, frame):
     print("Script terminated.")
     sys.exit(0)
 
+
 # Register signal handlers
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
+
 
 def main():
     """
@@ -137,13 +155,13 @@ def main():
     latitude = 40.682387
     longitude = -73.963004
     process = None
-    
+
     while True:
         try:
             print("Checking sunrise and sunset times...")
             sunrise, _ = get_sun_times(latitude, longitude)
             end_time = dtime(22, 0)  # 10 PM local time
-            
+
             if is_time_between(sunrise, end_time):
                 if not os.path.exists(lock_file_path):
                     # Start the script and create a lock file
@@ -161,7 +179,7 @@ def main():
                     print("Script stopped.")
                 else:
                     print("Script is not running, waiting for sunrise.")
-                
+
             time.sleep(60)  # Check every minute
         except requests.RequestException as e:
             print(f"Request error: {e}")
@@ -169,6 +187,7 @@ def main():
         except Exception as e:
             print(f"An error occurred: {e}")
             time.sleep(60)
+
 
 if __name__ == "__main__":
     main()
