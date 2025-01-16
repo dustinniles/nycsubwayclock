@@ -1,3 +1,9 @@
+"""
+This script fetches train arrival times from the NYC subway GTFS feed and displays
+the information on an LED matrix. The script is designed to run on a Raspberry Pi
+with an Adafruit RGB Matrix HAT.
+"""
+
 import os
 import getpass
 import stat
@@ -42,16 +48,35 @@ current_time_nyc = datetime.now(nyc_tz)
 print(f"Current system time (NYC): {current_time_nyc}")
 
 def fetch_train_times():
+    """
+    Fetches train arrival times from the NYC subway GTFS feed.
+
+    This function reads the GTFS trips and stops data, initializes the NYCTFeed,
+    filters trips for specific stops, calculates the arrival times, and returns
+    a list of train arrival times sorted by minutes away.
+
+    Returns:
+        list of tuple: A sorted list of tuples containing the train details and minutes away.
+    """
     try:
         trips_stream = io.StringIO(trips_content)
         stops_stream = io.StringIO(stops_content)
         print("Initializing NYCTFeed")
         feed = NYCTFeed("C", "C", trips_txt=trips_stream, stops_txt=stops_stream)
         print("NYCTFeed initialized successfully")
+
+        """
+        Edit the above NYCTFeed to the train line(s) you're trying to get info for.
+        """
+
         
         print("Filtering trips")
         trains = feed.filter_trips(headed_for_stop_id=["A44N", "A44S"])
         print(f"Number of trains found: {len(trains)}")
+
+        """
+        Edit the Stop ID (above and below) of the stop you're trying to get info for.
+        """
 
         train_times = []
         for train in trains:
@@ -90,10 +115,28 @@ def fetch_train_times():
         return []
 
 def map_route_id(route_id):
+    """
+    Maps the route ID to a corresponding symbol.
+
+    Args:
+        route_id (str): The route ID to be mapped.
+
+    Returns:
+        str: The mapped symbol for the given route ID.
+    """
     mapping = {'A': '!', 'C': '@', 'E': '#'}
     return mapping.get(route_id, route_id)
 
 def hex_to_rgb(hex_color):
+    """
+    Converts a hex color string to an RGB tuple. I did this to get as close to the official ACE blue as possible (it's given in RGB)
+
+    Args:
+        hex_color (str): The hex color string (e.g., "#FFFFFF").
+
+    Returns:
+        tuple: The corresponding RGB tuple (e.g., (255, 255, 255)).
+    """
     hex_color = hex_color.lstrip('#')
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
@@ -120,17 +163,50 @@ options.gpio_slowdown = 4
 matrix = RGBMatrix(options=options)
 
 def draw_colored_text(draw, text, position, font, route_color, default_color):
+    """
+    Draws colored text on the image.
+
+    Args:
+        draw (ImageDraw.Draw): The drawing context.
+        text (str): The text to be drawn.
+        position (tuple): The (x, y) position to start drawing the text.
+        font (ImageFont): The font to use for the text.
+        route_color (tuple): The RGB color for route symbols.
+        default_color (tuple): The default RGB color for text.
+    """
     x, y = position
     for char in text:
         draw.text((x, y), char, font=font, fill=route_color if char in "!@#" else default_color)
         x += draw.textbbox((x, y), char, font=font)[2] - x
 
 def draw_right_justified_text(draw, text, y, font, color, max_width):
+    """
+    Draws right-justified text on the image.
+
+    Args:
+        draw (ImageDraw.Draw): The drawing context.
+        text (str): The text to be drawn.
+        y (int): The y-coordinate to start drawing the text.
+        font (ImageFont): The font to use for the text.
+        color (tuple): The RGB color for the text.
+        max_width (int): The maximum width of the text area.
+    """
     text_width = draw.textbbox((0, 0), text, font=font)[2]
     x = max_width - text_width
     draw.text((x, y), text, font=font, fill=color)
 
 def truncate_text(text, font, max_width):
+    """
+    Truncates the text to fit within the specified width.
+
+    Args:
+        text (str): The text to be truncated.
+        font (ImageFont): The font to use for the text.
+        max_width (int): The maximum width of the text area.
+
+    Returns:
+        str: The truncated text with ellipsis if necessary.
+    """
     ellipsis = '...'
     while draw.textbbox((0, 0), text + ellipsis, font=font)[2] > max_width:
         if len(text) <= 1:
@@ -139,12 +215,27 @@ def truncate_text(text, font, max_width):
     return text + ellipsis if draw.textbbox((0, 0), text, font=font)[2] > max_width else text
 
 def draw_white_circle(draw, position, size):
+    """
+    Draws a white circle on the image under the route bullet. That way the letter shows up in white.
+
+    Args:
+        draw (ImageDraw.Draw): The drawing context.
+        position (tuple): The (x, y) position to draw the circle.
+        size (int): The diameter of the circle.
+    """
     x, y = position
     offset_x = 17
     offset_y = 1
     draw.ellipse((x + offset_x, y + offset_y, x + offset_x + size, y + offset_y + size), fill=(255, 255, 255))
 
 def update_display(closest_arrival, next_arrivals):
+    """
+    Updates the LED matrix display with train arrival information.
+
+    Args:
+        closest_arrival (tuple): The closest train arrival information.
+        next_arrivals (list of tuple): The next train arrivals information.
+    """
     draw.rectangle((0, 0, matrix_width, matrix_height), fill=(0, 0, 0))
     blue_color = hex_to_rgb("#003986")
     circle_size = font_size - 6
