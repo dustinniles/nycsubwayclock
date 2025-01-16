@@ -11,7 +11,7 @@ This project is designed to display NYC subway information on an LED matrix usin
 
 1. Clone this repository to your Raspberry Pi:
    ```sh
-   git clone --recursive git@github.com:your-username/nycsubwayclock.git
+   git clone --recursive git@github.com:dustinniles/nycsubwayclock.git
    cd nycsubwayclock
 
 2. Edit display_text.py and scheduler.py
