@@ -1,0 +1,3 @@
+[submodule "nyct-gtfs"]
+    path = nyct-gtfs
+    url = https://github.com/Andrew-Dickinson/nyct-gtfs.git
