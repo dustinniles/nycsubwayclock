@@ -23,7 +23,7 @@ load_dotenv()
 latitude = float(os.getenv("LATITUDE", "40.682387"))
 longitude = float(os.getenv("LONGITUDE", "-73.963004"))
 venv_path = os.getenv("VENV_PATH", "/root/venv")
-display_text_script = os.getenv("DISPLAY_TEXT_SCRIPT", "/root/nycsubwayclock/display_text.py")
+display_text_script = os.getenv("DISPLAY_TEXT_SCRIPT", "/root/nycsubwayclock/main.py")
 lock_file_path = os.getenv("LOCK_FILE_PATH", "/tmp/display_text.lock")
 python_bin = os.getenv("PYTHON_BIN", os.path.join(venv_path, "bin", "python"))
 
@@ -36,7 +36,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("scheduler.log"),
+        logging.FileHandler("logs/scheduler.log"),
         logging.StreamHandler()
     ]
 )

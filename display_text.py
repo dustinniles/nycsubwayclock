@@ -1,9 +1,3 @@
-"""
-This script fetches train arrival times from the NYC subway GTFS feed and displays
-the information on an LED matrix. The script is designed to run on a Raspberry Pi
-with an Adafruit RGB Matrix HAT.
-"""
-
 import os
 import getpass
 import stat
@@ -15,6 +9,7 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import time
 import io
 import logging
+import multiprocessing
 
 # Configure logging
 logging.basicConfig(
@@ -60,6 +55,39 @@ nyc_tz = pytz_timezone("America/New_York")
 current_time_nyc = datetime.now(nyc_tz)
 logger.info(f"Current system time (NYC): {current_time_nyc}")
 
+def process_stop_update(args):
+    train_info, current_time_nyc, nyc_tz = args
+    train_times = []
+    
+    route_id, headsign_text, stop_updates = train_info
+    for stop_update in stop_updates:
+        stop_id, arrival_time = stop_update
+        logger.debug(f"Original arrival time: {arrival_time}")
+
+        # Ensure arrival_time is timezone-aware
+        if arrival_time.tzinfo is None or arrival_time.tzinfo.utcoffset(arrival_time) is None:
+            arrival_time = nyc_tz.localize(arrival_time)
+
+        minutes_away = (arrival_time - current_time_nyc).total_seconds() // 60
+        logger.debug(f"Arrival time: {arrival_time}, Minutes away: {minutes_away}")
+        if minutes_away >= 0:
+            headsign = "".join(
+                c for c in headsign_text.strip().replace('"', "")
+                if c.isalnum() or c.isspace()
+            )
+            if minutes_away <= 30:
+                train_times.append(
+                    (
+                        f"{map_route_id(route_id)} {headsign} {int(minutes_away)}m",
+                        minutes_away,
+                    )
+                )
+                logger.debug(f"Added train time: {train_times[-1]}")
+            else:
+                logger.debug(f"Train {route_id} is more than 30 minutes away.")
+        else:
+            logger.debug(f"Train {route_id} has a negative minutes away value.")
+    return train_times
 
 def fetch_train_times():
     """
@@ -83,46 +111,17 @@ def fetch_train_times():
         trains = feed.filter_trips(headed_for_stop_id=["A44N", "A44S"])
         logger.info(f"Number of trains found: {len(trains)}")
 
-        train_times = []
+        data = []
         for train in trains:
-            logger.debug(f"Train: {train}")
-            for stop_update in train.stop_time_updates:
-                if stop_update.stop_id in ["A44N", "A44S"]:
-                    arrival_time = stop_update.arrival
-                    logger.debug(f"Original arrival time: {arrival_time}")
+            stop_updates = [(stop_update.stop_id, stop_update.arrival) for stop_update in train.stop_time_updates if stop_update.stop_id in ["A44N", "A44S"]]
+            data.append(((train.route_id, train.headsign_text, stop_updates), current_time_nyc, nyc_tz))
 
-                    # Ensure arrival_time is timezone-aware
-                    if (
-                        arrival_time.tzinfo is None
-                        or arrival_time.tzinfo.utcoffset(arrival_time) is None
-                    ):
-                        arrival_time = nyc_tz.localize(arrival_time)
+        # Use more processes to ensure better load distribution
+        with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:
+            results = pool.map(process_stop_update, data)
 
-                    minutes_away = (
-                        arrival_time - current_time_nyc
-                    ).total_seconds() // 60
-                    logger.debug(f"Arrival time: {arrival_time}, Minutes away: {minutes_away}")
-                    if minutes_away >= 0:
-                        headsign = "".join(
-                            c
-                            for c in train.headsign_text.strip().replace('"', "")
-                            if c.isalnum() or c.isspace()
-                        )
-                        if minutes_away <= 30:
-                            train_times.append(
-                                (
-                                    f"{map_route_id(train.route_id)} {headsign} {int(minutes_away)}m",
-                                    minutes_away,
-                                )
-                            )
-                            logger.debug(f"Added train time: {train_times[-1]}")
-                        else:
-                            logger.debug(f"Train {train} is more than 30 minutes away.")
-                    else:
-                        logger.debug(f"Train {train} has a negative minutes away value.")
-
-        # Filter out past train times
-        train_times = [t for t in train_times if t[1] >= 0]
+        # Flatten the list of results
+        train_times = [time for sublist in results for time in sublist]
         logger.info(f"Filtered train times: {train_times}")
 
         return sorted(train_times, key=lambda x: x[1])
@@ -132,7 +131,6 @@ def fetch_train_times():
     except Exception as e:
         logger.error(f"An unexpected error occurred: {e}")
         return []
-
 
 def map_route_id(route_id):
     """
@@ -147,7 +145,6 @@ def map_route_id(route_id):
     mapping = {"A": "!", "C": "@", "E": "#"}
     return mapping.get(route_id, route_id)
 
-
 def hex_to_rgb(hex_color):
     """
     Converts a hex color string to an RGB tuple. I did this to get as close to the official ACE blue as possible (it's given in RGB)
@@ -160,7 +157,6 @@ def hex_to_rgb(hex_color):
     """
     hex_color = hex_color.lstrip("#")
     return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
-
 
 font_path = "/root/nycsubwayclock/MTA.ttf"
 if not os.path.exists(font_path):
@@ -184,7 +180,6 @@ options.gpio_slowdown = 4
 
 matrix = RGBMatrix(options=options)
 
-
 def draw_colored_text(draw, text, position, font, route_color, default_color):
     """
     Draws colored text on the image.
@@ -207,7 +202,6 @@ def draw_colored_text(draw, text, position, font, route_color, default_color):
         )
         x += draw.textbbox((x, y), char, font=font)[2] - x
 
-
 def draw_right_justified_text(draw, text, y, font, color, max_width):
     """
     Draws right-justified text on the image.
@@ -223,7 +217,6 @@ def draw_right_justified_text(draw, text, y, font, color, max_width):
     text_width = draw.textbbox((0, 0), text, font=font)[2]
     x = max_width - text_width
     draw.text((x, y), text, font=font, fill=color)
-
 
 def truncate_text(text, font, max_width):
     """
@@ -248,7 +241,6 @@ def truncate_text(text, font, max_width):
         else text
     )
 
-
 def draw_white_circle(draw, position, size):
     """
     Draws a white circle on the image under the route bullet. That way the letter shows up in white.
@@ -265,7 +257,6 @@ def draw_white_circle(draw, position, size):
         (x + offset_x, y + offset_y, x + offset_x + size, y + offset_y + size),
         fill=(255, 255, 255),
     )
-
 
 def update_display(closest_arrival, next_arrival, line_number):
     """
@@ -364,6 +355,11 @@ while True:
         next_arrival = ("No trains available", 0)
         line_number = 2
 
+    # Avoid ZeroDivisionError by checking if next_arrivals is empty
+    if next_arrivals:
+        secondary_index = (secondary_index + 1) % len(next_arrivals)
+    else:
+        secondary_index = 0
+
     update_display(closest_arrival, next_arrival, line_number)
-    secondary_index = (secondary_index + 1) % len(next_arrivals)
     time.sleep(5)
