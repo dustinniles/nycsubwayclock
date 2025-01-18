@@ -25,7 +25,7 @@ longitude = float(os.getenv("LONGITUDE", "-73.963004"))
 venv_path = os.getenv("VENV_PATH", "/root/venv")
 display_text_script = os.getenv("DISPLAY_TEXT_SCRIPT", "/root/nycsubwayclock/display_text.py")
 lock_file_path = os.getenv("LOCK_FILE_PATH", "/tmp/display_text.lock")
-python_bin = os.path.join(venv_path, "bin", "python")
+python_bin = os.getenv("PYTHON_BIN", os.path.join(venv_path, "bin", "python"))
 
 # Ensure the site-packages from the virtual environment are included
 site_packages = os.path.join(venv_path, "lib", "python3.11", "site-packages")
@@ -130,6 +130,7 @@ def create_lock_file():
     """
     with open(lock_file_path, "w") as lock_file:
         lock_file.write(str(os.getpid()))
+    logger.info(f"Lock file created at {lock_file_path}")
 
 
 def remove_lock_file():
@@ -138,6 +139,7 @@ def remove_lock_file():
     """
     if os.path.exists(lock_file_path):
         os.remove(lock_file_path)
+        logger.info(f"Lock file removed from {lock_file_path}")
 
 
 def signal_handler(sig, frame):

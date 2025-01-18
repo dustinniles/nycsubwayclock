@@ -14,6 +14,19 @@ from PIL import ImageFont, Image, ImageDraw
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import time
 import io
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("display_text.log"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
 
 trips_path = "/root/nycsubwayclock/nyct-gtfs/nyct_gtfs/gtfs_static/trips.txt"
 stops_path = "/root/nycsubwayclock/nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt"
@@ -22,30 +35,30 @@ stops_path = "/root/nycsubwayclock/nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt"
 try:
     with open(trips_path, "r") as f:
         trips_content = f.read()
-        print("Trips file read successfully.")
+        logger.info("Trips file read successfully.")
 except PermissionError as e:
-    print(f"PermissionError: {e}")
+    logger.error(f"PermissionError: {e}")
     exit(1)
 
 try:
     with open(stops_path, "r") as f:
         stops_content = f.read()
-        print("Stops file read successfully.")
+        logger.info("Stops file read successfully.")
 except PermissionError as e:
-    print(f"PermissionError: {e}")
+    logger.error(f"PermissionError: {e}")
     exit(1)
 
-print(f"Current user: {getpass.getuser()}")
-print(f"Effective user ID: {os.geteuid()}")
-print(f"Trips file path: {trips_path}")
-print(f"Stops file path: {stops_path}")
-print(f"Trips file permissions: {oct(os.stat(trips_path).st_mode)}")
-print(f"Stops file permissions: {oct(os.stat(stops_path).st_mode)}")
+logger.info(f"Current user: {getpass.getuser()}")
+logger.info(f"Effective user ID: {os.geteuid()}")
+logger.info(f"Trips file path: {trips_path}")
+logger.info(f"Stops file path: {stops_path}")
+logger.info(f"Trips file permissions: {oct(os.stat(trips_path).st_mode)}")
+logger.info(f"Stops file permissions: {oct(os.stat(stops_path).st_mode)}")
 
 # Convert the current time to NYC timezone
 nyc_tz = pytz_timezone("America/New_York")
 current_time_nyc = datetime.now(nyc_tz)
-print(f"Current system time (NYC): {current_time_nyc}")
+logger.info(f"Current system time (NYC): {current_time_nyc}")
 
 
 def fetch_train_times():
@@ -62,21 +75,21 @@ def fetch_train_times():
     try:
         trips_stream = io.StringIO(trips_content)
         stops_stream = io.StringIO(stops_content)
-        print("Initializing NYCTFeed")
+        logger.info("Initializing NYCTFeed")
         feed = NYCTFeed("C", "C", trips_txt=trips_stream, stops_txt=stops_stream)
-        print("NYCTFeed initialized successfully")
+        logger.info("NYCTFeed initialized successfully")
 
-        print("Filtering trips")
+        logger.info("Filtering trips")
         trains = feed.filter_trips(headed_for_stop_id=["A44N", "A44S"])
-        print(f"Number of trains found: {len(trains)}")
+        logger.info(f"Number of trains found: {len(trains)}")
 
         train_times = []
         for train in trains:
-            print(f"Train: {train}")
+            logger.debug(f"Train: {train}")
             for stop_update in train.stop_time_updates:
                 if stop_update.stop_id in ["A44N", "A44S"]:
                     arrival_time = stop_update.arrival
-                    print(f"Original arrival time: {arrival_time}")
+                    logger.debug(f"Original arrival time: {arrival_time}")
 
                     # Ensure arrival_time is timezone-aware
                     if (
@@ -88,7 +101,7 @@ def fetch_train_times():
                     minutes_away = (
                         arrival_time - current_time_nyc
                     ).total_seconds() // 60
-                    print(f"Arrival time: {arrival_time}, Minutes away: {minutes_away}")
+                    logger.debug(f"Arrival time: {arrival_time}, Minutes away: {minutes_away}")
                     if minutes_away >= 0:
                         headsign = "".join(
                             c
@@ -102,22 +115,22 @@ def fetch_train_times():
                                     minutes_away,
                                 )
                             )
-                            print(f"Added train time: {train_times[-1]}")
+                            logger.debug(f"Added train time: {train_times[-1]}")
                         else:
-                            print(f"Train {train} is more than 30 minutes away.")
+                            logger.debug(f"Train {train} is more than 30 minutes away.")
                     else:
-                        print(f"Train {train} has a negative minutes away value.")
+                        logger.debug(f"Train {train} has a negative minutes away value.")
 
         # Filter out past train times
         train_times = [t for t in train_times if t[1] >= 0]
-        print(f"Filtered train times: {train_times}")
+        logger.info(f"Filtered train times: {train_times}")
 
         return sorted(train_times, key=lambda x: x[1])
     except PermissionError as e:
-        print(f"PermissionError: {e}")
+        logger.error(f"PermissionError: {e}")
         return []
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}")
         return []
 
 
