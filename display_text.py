@@ -66,17 +66,9 @@ def fetch_train_times():
         feed = NYCTFeed("C", "C", trips_txt=trips_stream, stops_txt=stops_stream)
         print("NYCTFeed initialized successfully")
 
-        """
-        Edit the above NYCTFeed to the train line(s) you're trying to get info for.
-        """
-
         print("Filtering trips")
         trains = feed.filter_trips(headed_for_stop_id=["A44N", "A44S"])
         print(f"Number of trains found: {len(trains)}")
-
-        """
-        Edit the Stop ID (above and below) of the stop you're trying to get info for.
-        """
 
         train_times = []
         for train in trains:
@@ -262,18 +254,20 @@ def draw_white_circle(draw, position, size):
     )
 
 
-def update_display(closest_arrival, next_arrivals):
+def update_display(closest_arrival, next_arrivals, secondary_index):
     """
     Updates the LED matrix display with train arrival information.
 
     Args:
         closest_arrival (tuple): The closest train arrival information.
         next_arrivals (list of tuple): The next train arrivals information.
+        secondary_index (int): The index indicating which train to display on the second line.
     """
     draw.rectangle((0, 0, matrix_width, matrix_height), fill=(0, 0, 0))
     blue_color = hex_to_rgb("#003986")
     circle_size = font_size - 6
 
+    # Display the closest arrival
     if closest_arrival[0] != "No trains available":
         closest_parts = closest_arrival[0].rsplit(" ", 1)
         closest_headsign = truncate_text(closest_parts[0], font, matrix_width - 30)
@@ -287,23 +281,31 @@ def update_display(closest_arrival, next_arrivals):
             draw, arrival_time, 0, font, (255, 255, 255), matrix_width
         )
 
-    for idx, next_arrival in enumerate(next_arrivals):
+    # Display the next arrivals, rotating the secondary index
+    line_number = 2  # Start numbering from 2 for the next arrivals
+    for i in range(len(next_arrivals)):
+        next_index = (secondary_index + i) % len(next_arrivals)
+        next_arrival = next_arrivals[next_index]
         next_parts = next_arrival[0].rsplit(" ", 1)
         next_headsign = truncate_text(next_parts[0], font, matrix_width - 30)
         arrival_time = next_parts[1]
 
-        draw_white_circle(draw, (0, 16), circle_size)
+        print(f"Displaying train {line_number} at line {i + 1} with index {next_index} and headsign {next_headsign}")
+
+        draw_white_circle(draw, (0, 16 * (i + 1)), circle_size)
         draw_colored_text(
             draw,
-            f"{idx + 2}. {next_headsign}",
-            (0, 16),
+            f"{line_number}. {next_headsign}",
+            (0, 16 * (i + 1)),
             font,
             blue_color,
             (255, 255, 255),
         )
         draw_right_justified_text(
-            draw, arrival_time, 16, font, (255, 255, 255), matrix_width
+            draw, arrival_time, 16 * (i + 1), font, (255, 255, 255), matrix_width
         )
+
+        line_number += 1  # Increment the line number for the next train
 
     image_rgb = image.convert("RGB")
     pixels = image_rgb.load()
@@ -311,7 +313,6 @@ def update_display(closest_arrival, next_arrivals):
         for y in range(matrix_height):
             r, g, b = pixels[x, y]
             matrix.SetPixel(x, y, r, g, b)
-
 
 train_times = fetch_train_times()
 
@@ -326,23 +327,27 @@ else:
 
 secondary_index = 0
 
-update_display(closest_arrival, next_arrivals[secondary_index : secondary_index + 1])
+# Initial display update
+update_display(closest_arrival, next_arrivals, secondary_index)
 time.sleep(3)
 
 while True:
-    if secondary_index == 0:
-        train_times = fetch_train_times()
-        if train_times:
-            closest_arrival = (
-                train_times[0] if len(train_times) > 0 else ("No trains available", 0)
-            )
-            next_arrivals = train_times[1:4] if len(train_times) > 1 else []
-        else:
-            closest_arrival = ("No trains available", 0)
-            next_arrivals = []
+    # Fetch the latest train times every minute
+    current_time_nyc = datetime.now(nyc_tz)  # Update current time for accurate calculations
+    train_times = fetch_train_times()
+    if train_times:
+        closest_arrival = (
+            train_times[0] if len(train_times) > 0 else ("No trains available", 0)
+        )
+        next_arrivals = train_times[1:4] if len(train_times) > 1 else []
+    else:
+        closest_arrival = ("No trains available", 0)
+        next_arrivals = []
 
-    update_display(
-        closest_arrival, next_arrivals[secondary_index : secondary_index + 1]
-    )
-    secondary_index = (secondary_index + 1) % 3
+    # Log the secondary index
+    print(f"Secondary index: {secondary_index}")
+
+    # Update display every 5 seconds
+    update_display(closest_arrival, next_arrivals, secondary_index)
+    secondary_index = (secondary_index + 1) % max(1, len(next_arrivals))
     time.sleep(5)
