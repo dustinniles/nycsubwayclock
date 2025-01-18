@@ -1,17 +1,27 @@
 import logging
 import os
 import time
+import sys
 from train_times.fetch import fetch_train_times
 from display.update import update_display
 from utils.helpers import get_current_time
-from pytz import timezone as pytz_timezone
+import pytz
+from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
+# Debugging statement to print the Python path
+print("Python Path:", sys.path)
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Load environment variables
 latitude = float(os.getenv("LATITUDE", "40.682387"))
 longitude = float(os.getenv("LONGITUDE", "-73.963004"))
-nyc_tz = pytz_timezone("America/New_York")
+nyc_tz = pytz.timezone("America/New_York")
+
+print(f"LATITUDE: {latitude}, LONGITUDE: {longitude}, NYC_TZ: {nyc_tz}")
+
+logger = logging.getLogger(__name__)
 
 def main():
     trips_path = "nyct-gtfs/nyct_gtfs/gtfs_static/trips.txt"
