@@ -5,8 +5,9 @@ This project is designed to display NYC subway information on an LED matrix usin
 
 - **nyct-gtfs**: [Andrew Dickinson's nyct-gtfs](https://github.com/Andrew-Dickinson/nyct-gtfs.git) repository.
 - **rpi-rgb-led-matrix**: [Henner Zeller's rpi-rgb-led-matrix](https://github.com/hzeller/rpi-rgb-led-matrix) repository.
-- **display_text.py and scheduler.py**: Custom scripts and configurations for displaying subway information on an LED matrix and turning on and off based on the time.
-- **Font**: MTA.ttf from [Trammell Hudson's MTA Countdown Clock Project](https://trmm.net/MTA_Countdown_Clock/), customized so ACE bullets are represented as !@#.
+- **train_time,display, and util directories**: Python files that work together to pull traintimes and display them on the matrix.
+- **Main.py**: Main file that pulls together from above directories
+- **Font**: MTA.ttf from [Trammell Hudson's MTA Countdown Clock Project](https://trmm.net/MTA_Countdown_Clock/), customized so ACE bullets are represented by !@#.
 
 ## Setup Instructions
 
@@ -15,11 +16,11 @@ This project is designed to display NYC subway information on an LED matrix usin
    git clone --recursive git@github.com:dustinniles/nycsubwayclock.git
    cd nycsubwayclock
 
-2. Edit display_text.py and scheduler.py
-   display_text.py actually queries the information and displays it on the screen. Edit the feeds for the subway line you need and the stops you want to display (mine are set to the 'C' line and 'A44N' & 'A44S' (Clinton-Washington stop).
-     scheduler.py simply uses a date and time API to check every minute if it's between sunrise and 10PM and runs displaytext.py if so. You can probably leave the coordinates the same but you'll need to customize for when you want the screen to go on and off.
+2. Edit necessary files
+   Edit train_time files to pull from the feeds for the subway line you need and the stops you want to display (mine are set to the 'C' line and 'A44N' & 'A44S' (Clinton-Washington stop). Usually local/express trios are combined into the same feed.
+     scheduler.py simply uses a date and time API to check every minute if it's between sunrise and 10PM and runs the display function if so. You can probably leave the coordinates the same (it's just a spot in BK near Prospect Park, I imagine most New Yorkers sunrise/sunset times are about the same but feel free to edit if you want to be exact for fun) but you'll need to customize for when you want the screen to go on and off.
 
-4. See the subdirectories for more info. For instance, display_text.py is set for a GPIO slowdown for a Raspebrry Pi 4, and set for 2 chained 32x64 LED matrices. You may need different settings.
+4. See the subdirectories for more info. For instance, the display files are set for a GPIO slowdown for a Raspebrry Pi 4B, and set for 2 chained 32x64 LED matrices. You may need different settings.
 
 
 ## NOTE
