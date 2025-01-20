@@ -2,23 +2,30 @@ import logging
 import os
 import time
 import sys
-from train_times.fetch import fetch_train_times
-from display.update import update_display
-from utils.helpers import get_current_time
-from dotenv import load_dotenv
+import pytz  # Import pytz early to avoid conflicts
 
 # Debugging statement to print the Python path
 print("Python Path:", sys.path)
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Load environment variables
+# Load environment variables directly from the system environment
 latitude = float(os.getenv("LATITUDE", "40.682387"))
 longitude = float(os.getenv("LONGITUDE", "-73.963004"))
-nyc_tz = "America/New_York"  # Use a valid timezone string
+# Hardcode the timezone string for testing
+nyc_tz = "America/New_York"
 
 print(f"LATITUDE: {latitude}, LONGITUDE: {longitude}, NYC_TZ: {nyc_tz}")
+
+# Verify the timezone string
+try:
+    tz = pytz.timezone(nyc_tz)
+    print(f"Timezone '{nyc_tz}' is valid.")
+except pytz.UnknownTimeZoneError:
+    print(f"Timezone '{nyc_tz}' is not valid.")
+    sys.exit(1)
+
+from train_times.fetch import fetch_train_times
+from display.update import update_display
+from utils.helpers import get_current_time
 
 logger = logging.getLogger(__name__)
 
