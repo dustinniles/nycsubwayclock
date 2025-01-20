@@ -5,7 +5,6 @@ import sys
 from train_times.fetch import fetch_train_times
 from display.update import update_display
 from utils.helpers import get_current_time
-import pytz
 from dotenv import load_dotenv
 
 # Debugging statement to print the Python path
@@ -17,7 +16,7 @@ load_dotenv()
 # Load environment variables
 latitude = float(os.getenv("LATITUDE", "40.682387"))
 longitude = float(os.getenv("LONGITUDE", "-73.963004"))
-nyc_tz = pytz.timezone("America/New_York")
+nyc_tz = "America/New_York"  # Use a valid timezone string
 
 print(f"LATITUDE: {latitude}, LONGITUDE: {longitude}, NYC_TZ: {nyc_tz}")
 

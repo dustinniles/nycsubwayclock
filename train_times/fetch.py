@@ -8,11 +8,12 @@ from utils.helpers import get_current_time, map_route_id
 
 logger = logging.getLogger(__name__)
 
-def fetch_train_times(trips_content, stops_content, nyc_tz):
+def fetch_train_times(trips_content, stops_content, nyc_tz_str):
     """
     Fetches train arrival times from the NYC subway GTFS feed.
     """
     try:
+        nyc_tz = pytz_timezone(nyc_tz_str)  # Convert the timezone string to a pytz timezone object
         trips_stream = io.StringIO(trips_content)
         stops_stream = io.StringIO(stops_content)
         logger.info("Initializing NYCTFeed")
@@ -26,7 +27,7 @@ def fetch_train_times(trips_content, stops_content, nyc_tz):
         data = []
         for train in trains:
             stop_updates = [(stop_update.stop_id, stop_update.arrival) for stop_update in train.stop_time_updates if stop_update.stop_id in ["A44N", "A44S"]]
-            data.append(((train.route_id, train.headsign_text, stop_updates), get_current_time(nyc_tz), nyc_tz))
+            data.append(((train.route_id, train.headsign_text, stop_updates), get_current_time(nyc_tz_str), nyc_tz))
 
         # Use more processes to ensure better load distribution
         with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:

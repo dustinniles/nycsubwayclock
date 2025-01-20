@@ -1,0 +1,787 @@
+2025-01-19 19:10:27,678 - __main__ - INFO - Trips file read successfully.
+2025-01-19 19:10:27,679 - __main__ - INFO - Stops file read successfully.
+2025-01-19 19:10:27,689 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:10:27,785 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:10:27,998 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13820
+2025-01-19 19:10:28,003 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:10:28,003 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:10:28,013 - train_times.fetch - INFO - Number of trains found: 15
+2025-01-19 19:10:28,048 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:08
+2025-01-19 19:10:28,048 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:11:18
+2025-01-19 19:10:28,050 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:41:15
+2025-01-19 19:10:28,050 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:45
+2025-01-19 19:10:28,051 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:11:18-05:00, Minutes away: 0.0
+2025-01-19 19:10:28,051 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:08-05:00, Minutes away: 8.0
+2025-01-19 19:10:28,051 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 0m', 0.0)
+2025-01-19 19:10:28,051 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 8m', 8.0)
+2025-01-19 19:10:28,052 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:41:15-05:00, Minutes away: 30.0
+2025-01-19 19:10:28,053 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:15:15
+2025-01-19 19:10:28,053 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:30:30
+2025-01-19 19:10:28,054 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 30m', 30.0)
+2025-01-19 19:10:28,054 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:15:15-05:00, Minutes away: 4.0
+2025-01-19 19:10:28,054 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 4m', 4.0)
+2025-01-19 19:10:28,054 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:10:28,055 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:45-05:00, Minutes away: 42.0
+2025-01-19 19:10:28,055 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,055 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 52.0
+2025-01-19 19:10:28,055 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,055 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:10:28,055 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:10:28,056 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 32.0
+2025-01-19 19:10:28,056 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 64.0
+2025-01-19 19:10:28,056 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,056 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,056 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:10:28,056 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:10:28,057 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 77.0
+2025-01-19 19:10:28,057 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 44.0
+2025-01-19 19:10:28,057 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,057 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,057 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:10:28,057 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:30:30-05:00, Minutes away: 20.0
+2025-01-19 19:10:28,058 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 20m', 20.0)
+2025-01-19 19:10:28,059 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:10:28,059 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 56.0
+2025-01-19 19:10:28,059 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:10:28,059 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 68.0
+2025-01-19 19:10:28,059 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 89.0
+2025-01-19 19:10:28,060 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,060 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,060 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,060 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:10:28,061 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 100.0
+2025-01-19 19:10:28,061 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:10:28,070 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 0m', 0.0), ('@ Euclid Av 8m', 8.0), ('@ Euclid Av 30m', 30.0), ('@ 168 St 20m', 20.0), ('@ 168 St 4m', 4.0)]
+2025-01-19 19:16:17,423 - __main__ - INFO - Trips file read successfully.
+2025-01-19 19:16:17,425 - __main__ - INFO - Stops file read successfully.
+2025-01-19 19:16:17,434 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:16:17,527 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:16:17,835 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13074
+2025-01-19 19:16:17,840 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:16:17,840 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:16:17,850 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:16:17,885 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:08
+2025-01-19 19:16:17,885 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:45
+2025-01-19 19:16:17,886 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:45-05:00, Minutes away: 26.0
+2025-01-19 19:16:17,886 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:08-05:00, Minutes away: 2.0
+2025-01-19 19:16:17,886 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 26m', 26.0)
+2025-01-19 19:16:17,886 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:16:17,888 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:15
+2025-01-19 19:16:17,888 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:16:08
+2025-01-19 19:16:17,889 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:16:17,890 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 46.0
+2025-01-19 19:16:17,890 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:28:49
+2025-01-19 19:16:17,891 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:16:08-05:00, Minutes away: -1.0
+2025-01-19 19:16:17,891 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:15-05:00, Minutes away: 35.0
+2025-01-19 19:16:17,891 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,891 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:16:17,891 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,892 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:28:49-05:00, Minutes away: 12.0
+2025-01-19 19:16:17,892 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:16:17,892 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:16:17,893 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 58.0
+2025-01-19 19:16:17,893 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 12m', 12.0)
+2025-01-19 19:16:17,893 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 26.0
+2025-01-19 19:16:17,893 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,893 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 26m', 26.0)
+2025-01-19 19:16:17,894 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:16:17,894 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:16:17,895 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:16:17,895 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 71.0
+2025-01-19 19:16:17,895 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:16:17,895 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,895 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 38.0
+2025-01-19 19:16:17,895 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 50.0
+2025-01-19 19:16:17,896 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,896 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:16:17,896 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,896 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 83.0
+2025-01-19 19:16:17,897 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 62.0
+2025-01-19 19:16:17,897 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:16:17,897 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,898 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,898 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 94.0
+2025-01-19 19:16:17,899 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:17,907 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 26m', 26.0), ('@ 168 St 12m', 12.0), ('@ 168 St 26m', 26.0)]
+2025-01-19 19:16:20,941 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:16:21,216 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:16:21,384 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13074
+2025-01-19 19:16:21,394 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:16:21,395 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:16:21,423 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:16:21,473 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:08
+2025-01-19 19:16:21,473 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:45
+2025-01-19 19:16:21,477 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:15
+2025-01-19 19:16:21,477 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:16:08
+2025-01-19 19:16:21,479 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:08-05:00, Minutes away: 2.0
+2025-01-19 19:16:21,479 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:45-05:00, Minutes away: 26.0
+2025-01-19 19:16:21,480 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:16:21,480 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 26m', 26.0)
+2025-01-19 19:16:21,482 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:15-05:00, Minutes away: 35.0
+2025-01-19 19:16:21,482 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:16:08-05:00, Minutes away: -1.0
+2025-01-19 19:16:21,483 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,483 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:16:21,484 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:28:49
+2025-01-19 19:16:21,484 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:16:21,486 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 46.0
+2025-01-19 19:16:21,486 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:16:21,487 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:28:49-05:00, Minutes away: 12.0
+2025-01-19 19:16:21,487 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:16:21,488 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,488 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 58.0
+2025-01-19 19:16:21,489 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,490 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:16:21,490 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:16:21,491 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 26.0
+2025-01-19 19:16:21,491 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 12m', 12.0)
+2025-01-19 19:16:21,492 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 38.0
+2025-01-19 19:16:21,492 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 26m', 26.0)
+2025-01-19 19:16:21,492 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 71.0
+2025-01-19 19:16:21,493 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,494 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:16:21,494 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:16:21,494 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,495 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:16:21,496 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 50.0
+2025-01-19 19:16:21,496 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,496 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 83.0
+2025-01-19 19:16:21,497 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,498 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:16:21,498 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 62.0
+2025-01-19 19:16:21,499 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,500 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 94.0
+2025-01-19 19:16:21,500 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:21,518 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 26m', 26.0), ('@ 168 St 12m', 12.0), ('@ 168 St 26m', 26.0)]
+2025-01-19 19:16:36,604 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:16:36,879 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:16:37,276 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13259
+2025-01-19 19:16:37,286 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:16:37,287 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:16:37,314 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:16:37,364 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:08
+2025-01-19 19:16:37,364 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:57
+2025-01-19 19:16:37,366 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:08-05:00, Minutes away: 2.0
+2025-01-19 19:16:37,366 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:57-05:00, Minutes away: 26.0
+2025-01-19 19:16:37,367 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 26m', 26.0)
+2025-01-19 19:16:37,368 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:28:49
+2025-01-19 19:16:37,369 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:28:49-05:00, Minutes away: 12.0
+2025-01-19 19:16:37,369 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 12m', 12.0)
+2025-01-19 19:16:37,369 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:16:18
+2025-01-19 19:16:37,372 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:16:37,371 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:16:18-05:00, Minutes away: -1.0
+2025-01-19 19:16:37,373 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:16:37,373 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:16:37,374 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:16:37,375 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 25.0
+2025-01-19 19:16:37,376 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:27
+2025-01-19 19:16:37,376 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 25m', 25.0)
+2025-01-19 19:16:37,377 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:16:37,378 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 46.0
+2025-01-19 19:16:37,378 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:27-05:00, Minutes away: 35.0
+2025-01-19 19:16:37,379 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,379 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 58.0
+2025-01-19 19:16:37,380 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:16:37,381 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,381 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:16:37,382 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,383 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 37.0
+2025-01-19 19:16:37,383 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:16:37,384 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 70.0
+2025-01-19 19:16:37,384 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,385 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:16:37,385 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,386 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 49.0
+2025-01-19 19:16:37,387 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:16:37,387 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 82.0
+2025-01-19 19:16:37,388 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,388 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:16:37,389 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,389 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 94.0
+2025-01-19 19:16:37,390 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 61.0
+2025-01-19 19:16:37,391 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,391 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:37,411 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 26m', 26.0), ('@ 168 St 12m', 12.0), ('@ 168 St 25m', 25.0)]
+2025-01-19 19:16:52,515 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:16:52,788 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:16:53,072 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13103
+2025-01-19 19:16:53,081 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:16:53,082 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:16:53,110 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:16:53,159 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:09
+2025-01-19 19:16:53,161 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:39
+2025-01-19 19:16:53,158 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:09
+2025-01-19 19:16:53,162 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:16:34
+2025-01-19 19:16:53,165 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:09-05:00, Minutes away: 26.0
+2025-01-19 19:16:53,165 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:39-05:00, Minutes away: 35.0
+2025-01-19 19:16:53,165 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 26m', 26.0)
+2025-01-19 19:16:53,167 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:16:53,167 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:16:34-05:00, Minutes away: -1.0
+2025-01-19 19:16:53,167 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:09-05:00, Minutes away: 2.0
+2025-01-19 19:16:53,168 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:16:53,168 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:16:53,168 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 46.0
+2025-01-19 19:16:53,169 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,169 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:16:53,169 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:16:53,169 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:28:49
+2025-01-19 19:16:53,170 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 58.0
+2025-01-19 19:16:53,170 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 25.0
+2025-01-19 19:16:53,170 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:28:49-05:00, Minutes away: 11.0
+2025-01-19 19:16:53,171 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 11m', 11.0)
+2025-01-19 19:16:53,171 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,172 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:16:53,172 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 25m', 25.0)
+2025-01-19 19:16:53,173 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:16:53,173 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 70.0
+2025-01-19 19:16:53,174 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:16:53,174 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 37.0
+2025-01-19 19:16:53,175 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,175 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 49.0
+2025-01-19 19:16:53,176 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:16:53,175 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,175 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,177 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,177 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 82.0
+2025-01-19 19:16:53,178 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,179 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:16:53,180 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:16:53,181 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 94.0
+2025-01-19 19:16:53,181 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 61.0
+2025-01-19 19:16:53,182 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,182 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:16:53,198 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 26m', 26.0), ('@ 168 St 25m', 25.0), ('@ 168 St 11m', 11.0)]
+2025-01-19 19:17:08,285 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:17:08,555 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:17:08,807 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13035
+2025-01-19 19:17:08,816 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:17:08,817 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:17:08,844 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:17:08,893 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:21
+2025-01-19 19:17:08,893 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:21
+2025-01-19 19:17:08,895 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:21-05:00, Minutes away: 26.0
+2025-01-19 19:17:08,896 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 26m', 26.0)
+2025-01-19 19:17:08,897 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:28:51
+2025-01-19 19:17:08,898 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:21-05:00, Minutes away: 2.0
+2025-01-19 19:17:08,898 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:28:51-05:00, Minutes away: 11.0
+2025-01-19 19:17:08,898 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:17:08,896 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:16:38
+2025-01-19 19:17:08,901 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:51:51
+2025-01-19 19:17:08,902 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:16:38-05:00, Minutes away: -1.0
+2025-01-19 19:17:08,903 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:17:08,903 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:51:51-05:00, Minutes away: 34.0
+2025-01-19 19:17:08,905 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:17:08,904 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 11m', 11.0)
+2025-01-19 19:17:08,905 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 45.0
+2025-01-19 19:17:08,905 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,907 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,909 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:17:08,909 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:17:08,910 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:17:08,910 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:17:08,912 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 37.0
+2025-01-19 19:17:08,912 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 57.0
+2025-01-19 19:17:08,913 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 70.0
+2025-01-19 19:17:08,913 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 25.0
+2025-01-19 19:17:08,914 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,914 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 25m', 25.0)
+2025-01-19 19:17:08,915 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:17:08,915 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,916 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,917 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:17:08,917 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:17:08,918 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:17:08,919 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 82.0
+2025-01-19 19:17:08,919 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 49.0
+2025-01-19 19:17:08,919 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,920 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 61.0
+2025-01-19 19:17:08,920 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,921 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 93.0
+2025-01-19 19:17:08,922 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,922 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:08,938 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 26m', 26.0), ('@ 168 St 11m', 11.0), ('@ 168 St 25m', 25.0)]
+2025-01-19 19:17:24,042 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:17:24,315 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:17:24,641 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13241
+2025-01-19 19:17:24,650 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:17:24,651 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:17:24,678 - train_times.fetch - INFO - Number of trains found: 13
+2025-01-19 19:17:24,727 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:45
+2025-01-19 19:17:24,727 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:45
+2025-01-19 19:17:24,731 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:15
+2025-01-19 19:17:24,731 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:17:24,733 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:45-05:00, Minutes away: 2.0
+2025-01-19 19:17:24,734 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:45-05:00, Minutes away: 26.0
+2025-01-19 19:17:24,735 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:15-05:00, Minutes away: 34.0
+2025-01-19 19:17:24,735 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 26m', 26.0)
+2025-01-19 19:17:24,736 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:17:24,736 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,737 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 45.0
+2025-01-19 19:17:24,738 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,738 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:17:24,739 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:17:24,739 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 25.0
+2025-01-19 19:17:24,741 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:17:24,742 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:58
+2025-01-19 19:17:24,742 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 25m', 25.0)
+2025-01-19 19:17:24,743 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 37.0
+2025-01-19 19:17:24,743 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,744 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:58-05:00, Minutes away: 10.0
+2025-01-19 19:17:24,744 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 57.0
+2025-01-19 19:17:24,745 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:17:24,745 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:17:24,745 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 10m', 10.0)
+2025-01-19 19:17:24,747 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 49.0
+2025-01-19 19:17:24,747 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:17:24,748 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,748 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 70.0
+2025-01-19 19:17:24,749 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:17:24,749 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,748 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,750 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 82.0
+2025-01-19 19:17:24,751 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 61.0
+2025-01-19 19:17:24,751 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,752 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:17:24,753 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,754 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 93.0
+2025-01-19 19:17:24,755 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:24,773 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 26m', 26.0), ('@ 168 St 25m', 25.0), ('@ 168 St 10m', 10.0)]
+2025-01-19 19:17:39,877 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:17:40,152 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:17:40,409 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13462
+2025-01-19 19:17:40,418 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:17:40,419 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:17:40,446 - train_times.fetch - INFO - Number of trains found: 13
+2025-01-19 19:17:40,493 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:57
+2025-01-19 19:17:40,493 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:53
+2025-01-19 19:17:40,497 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:27
+2025-01-19 19:17:40,497 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:00
+2025-01-19 19:17:40,499 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:57-05:00, Minutes away: 2.0
+2025-01-19 19:17:40,499 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:53-05:00, Minutes away: 25.0
+2025-01-19 19:17:40,501 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:27-05:00, Minutes away: 34.0
+2025-01-19 19:17:40,501 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 2m', 2.0)
+2025-01-19 19:17:40,502 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,503 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:00-05:00, Minutes away: 45.0
+2025-01-19 19:17:40,504 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:17:40,505 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 25m', 25.0)
+2025-01-19 19:17:40,507 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:17:40,507 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,508 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:58
+2025-01-19 19:17:40,508 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:58-05:00, Minutes away: 10.0
+2025-01-19 19:17:40,509 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:17:40,509 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 10m', 10.0)
+2025-01-19 19:17:40,509 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 36.0
+2025-01-19 19:17:40,510 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:17:40,510 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,511 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 57.0
+2025-01-19 19:17:40,511 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 24.0
+2025-01-19 19:17:40,512 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 69.0
+2025-01-19 19:17:40,512 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:17:40,513 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,513 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 24m', 24.0)
+2025-01-19 19:17:40,514 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,514 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:17:40,516 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 48.0
+2025-01-19 19:17:40,516 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:17:40,517 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 81.0
+2025-01-19 19:17:40,517 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 60.0
+2025-01-19 19:17:40,517 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,518 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:17:40,518 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,519 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,520 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 93.0
+2025-01-19 19:17:40,521 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:17:40,538 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 2m', 2.0), ('@ Euclid Av 25m', 25.0), ('@ 168 St 24m', 24.0), ('@ 168 St 10m', 10.0)]
+2025-01-19 19:20:11,736 - __main__ - INFO - Trips file read successfully.
+2025-01-19 19:20:11,737 - __main__ - INFO - Stops file read successfully.
+2025-01-19 19:20:11,747 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:20:11,845 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:20:12,108 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13514
+2025-01-19 19:20:12,152 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:20:12,153 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:20:12,163 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:20:12,196 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:46
+2025-01-19 19:20:12,198 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:46-05:00, Minutes away: -1.0
+2025-01-19 19:20:12,198 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:20:12,198 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:21
+2025-01-19 19:20:12,199 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:21-05:00, Minutes away: 23.0
+2025-01-19 19:20:12,200 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:20:12,200 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:02:28
+2025-01-19 19:20:12,201 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:03
+2025-01-19 19:20:12,200 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:51
+2025-01-19 19:20:12,201 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:20:12,202 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:51-05:00, Minutes away: 7.0
+2025-01-19 19:20:12,202 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:03-05:00, Minutes away: 31.0
+2025-01-19 19:20:12,202 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 7m', 7.0)
+2025-01-19 19:20:12,202 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 22.0
+2025-01-19 19:20:12,202 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:02:28-05:00, Minutes away: 42.0
+2025-01-19 19:20:12,203 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,203 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 22m', 22.0)
+2025-01-19 19:20:12,203 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:20:12,204 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,204 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:20:12,204 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 54.0
+2025-01-19 19:20:12,205 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:20:12,205 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:20:12,205 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 34.0
+2025-01-19 19:20:12,206 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,206 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 46.0
+2025-01-19 19:20:12,206 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,206 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 67.0
+2025-01-19 19:20:12,206 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,207 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:20:12,207 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:20:12,207 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,208 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:20:12,208 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 90.0
+2025-01-19 19:20:12,208 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:20:12,209 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 58.0
+2025-01-19 19:20:12,209 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,209 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 79.0
+2025-01-19 19:20:12,209 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,209 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 102.0
+2025-01-19 19:20:12,210 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,210 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:12,219 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 7m', 7.0), ('@ 168 St 22m', 22.0)]
+2025-01-19 19:20:15,243 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:20:15,361 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:20:15,519 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13395
+2025-01-19 19:20:15,530 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:20:15,531 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:20:15,560 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:20:15,609 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:19:58
+2025-01-19 19:20:15,609 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:33
+2025-01-19 19:20:15,613 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:03
+2025-01-19 19:20:15,613 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:26:49
+2025-01-19 19:20:15,615 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:19:58-05:00, Minutes away: -1.0
+2025-01-19 19:20:15,616 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:20:15,616 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:33-05:00, Minutes away: 23.0
+2025-01-19 19:20:15,616 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:26:49-05:00, Minutes away: 6.0
+2025-01-19 19:20:15,617 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:20:15,617 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:20:15,619 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 22.0
+2025-01-19 19:20:15,619 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:20:15,620 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:02:33
+2025-01-19 19:20:15,619 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:03-05:00, Minutes away: 31.0
+2025-01-19 19:20:15,620 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 22m', 22.0)
+2025-01-19 19:20:15,622 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:20:15,622 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:02:33-05:00, Minutes away: 42.0
+2025-01-19 19:20:15,623 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,624 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 54.0
+2025-01-19 19:20:15,624 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,624 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:20:15,625 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 34.0
+2025-01-19 19:20:15,625 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:20:15,626 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,626 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 67.0
+2025-01-19 19:20:15,627 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:20:15,627 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:20:15,627 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,629 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 46.0
+2025-01-19 19:20:15,629 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 79.0
+2025-01-19 19:20:15,628 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,630 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:20:15,630 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:20:15,630 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,631 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,631 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 90.0
+2025-01-19 19:20:15,632 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,633 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:20:15,634 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 58.0
+2025-01-19 19:20:15,634 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,635 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 102.0
+2025-01-19 19:20:15,635 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:15,652 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 6m', 6.0), ('@ 168 St 22m', 22.0)]
+2025-01-19 19:20:25,725 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:20:26,003 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:20:26,507 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13152
+2025-01-19 19:20:26,517 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:20:26,519 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:20:26,547 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:20:26,596 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:20:09
+2025-01-19 19:20:26,597 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:45
+2025-01-19 19:20:26,599 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:45-05:00, Minutes away: 23.0
+2025-01-19 19:20:26,600 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:15
+2025-01-19 19:20:26,603 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:20:26,604 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:20:09-05:00, Minutes away: -1.0
+2025-01-19 19:20:26,604 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:20:26,604 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:20:26,601 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:02:45
+2025-01-19 19:20:26,605 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:26:49
+2025-01-19 19:20:26,607 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:02:45-05:00, Minutes away: 42.0
+2025-01-19 19:20:26,606 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:26:49-05:00, Minutes away: 6.0
+2025-01-19 19:20:26,609 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,609 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:15-05:00, Minutes away: 31.0
+2025-01-19 19:20:26,609 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 22.0
+2025-01-19 19:20:26,610 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,611 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 22m', 22.0)
+2025-01-19 19:20:26,611 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:20:26,613 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:20:26,614 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:20:26,614 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:20:26,615 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:06:30
+2025-01-19 19:20:26,615 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 34.0
+2025-01-19 19:20:26,616 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:06:30-05:00, Minutes away: 46.0
+2025-01-19 19:20:26,616 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,617 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:20:26,618 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 54.0
+2025-01-19 19:20:26,618 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 67.0
+2025-01-19 19:20:26,619 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,619 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 79.0
+2025-01-19 19:20:26,620 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,620 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,621 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,622 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:18:30
+2025-01-19 19:20:26,623 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:20:26,624 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:18:30-05:00, Minutes away: 58.0
+2025-01-19 19:20:26,624 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:20:26,625 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,625 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 90.0
+2025-01-19 19:20:26,626 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 102.0
+2025-01-19 19:20:26,626 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,627 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:26,642 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 22m', 22.0), ('@ 168 St 6m', 6.0)]
+2025-01-19 19:20:36,716 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:20:36,988 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:20:37,260 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13201
+2025-01-19 19:20:37,269 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:20:37,270 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:20:37,298 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:20:37,347 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:57
+2025-01-19 19:20:37,349 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:26:57
+2025-01-19 19:20:37,350 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:20:23
+2025-01-19 19:20:37,352 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:57-05:00, Minutes away: 23.0
+2025-01-19 19:20:37,352 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:20:37,352 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:20:23-05:00, Minutes away: -1.0
+2025-01-19 19:20:37,353 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:20:37,353 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:20:37,354 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:26:57-05:00, Minutes away: 6.0
+2025-01-19 19:20:37,350 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:27
+2025-01-19 19:20:37,356 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 21.0
+2025-01-19 19:20:37,356 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:20:37,357 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 54.0
+2025-01-19 19:20:37,358 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:20:37,358 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 21m', 21.0)
+2025-01-19 19:20:37,358 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:27-05:00, Minutes away: 31.0
+2025-01-19 19:20:37,359 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,360 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,361 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:02:57
+2025-01-19 19:20:37,362 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:20:37,363 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:10:30
+2025-01-19 19:20:37,363 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:20:37,364 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 33.0
+2025-01-19 19:20:37,364 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:02:57-05:00, Minutes away: 42.0
+2025-01-19 19:20:37,365 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 66.0
+2025-01-19 19:20:37,365 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:10:30-05:00, Minutes away: 49.0
+2025-01-19 19:20:37,365 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,365 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,366 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,367 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:20:37,367 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,368 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:26:30
+2025-01-19 19:20:37,369 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:20:37,369 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:26:30-05:00, Minutes away: 65.0
+2025-01-19 19:20:37,370 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:20:37,371 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 78.0
+2025-01-19 19:20:37,371 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 90.0
+2025-01-19 19:20:37,372 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,372 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,373 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 102.0
+2025-01-19 19:20:37,373 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,375 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:37,390 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 6m', 6.0), ('@ 168 St 21m', 21.0)]
+2025-01-19 19:20:47,463 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:20:47,739 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:20:47,998 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13092
+2025-01-19 19:20:48,007 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:20:48,008 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:20:48,035 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:20:48,085 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:44:09
+2025-01-19 19:20:48,085 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:20:33
+2025-01-19 19:20:48,087 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:44:09-05:00, Minutes away: 23.0
+2025-01-19 19:20:48,089 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:09
+2025-01-19 19:20:48,088 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:20:48,091 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:20:33-05:00, Minutes away: -1.0
+2025-01-19 19:20:48,091 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:39
+2025-01-19 19:20:48,093 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:09-05:00, Minutes away: 6.0
+2025-01-19 19:20:48,093 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:20:48,094 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:20:48,095 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 21.0
+2025-01-19 19:20:48,095 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:20:48,096 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:20:48,097 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 54.0
+2025-01-19 19:20:48,097 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:39-05:00, Minutes away: 31.0
+2025-01-19 19:20:48,097 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,097 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,098 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:09
+2025-01-19 19:20:48,100 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:09-05:00, Minutes away: 42.0
+2025-01-19 19:20:48,100 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:20:48,100 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,101 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 21m', 21.0)
+2025-01-19 19:20:48,102 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:20:48,103 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 33.0
+2025-01-19 19:20:48,103 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:20:48,104 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,104 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 66.0
+2025-01-19 19:20:48,105 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:10:30
+2025-01-19 19:20:48,105 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 78.0
+2025-01-19 19:20:48,106 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,106 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:26:30
+2025-01-19 19:20:48,106 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,107 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:10:30-05:00, Minutes away: 49.0
+2025-01-19 19:20:48,108 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:20:48,108 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:26:30-05:00, Minutes away: 65.0
+2025-01-19 19:20:48,109 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:20:48,109 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,110 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 102.0
+2025-01-19 19:20:48,111 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,111 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 90.0
+2025-01-19 19:20:48,110 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,112 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:48,127 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 6m', 6.0), ('@ 168 St 21m', 21.0)]
+2025-01-19 19:20:58,201 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:20:58,477 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:20:58,773 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13038
+2025-01-19 19:20:58,783 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:20:58,785 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:20:58,813 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:20:58,863 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:20:43
+2025-01-19 19:20:58,863 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:44:21
+2025-01-19 19:20:58,865 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:44:21-05:00, Minutes away: 23.0
+2025-01-19 19:20:58,867 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:51
+2025-01-19 19:20:58,868 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:20:58,870 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:20:43-05:00, Minutes away: -1.0
+2025-01-19 19:20:58,869 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:21
+2025-01-19 19:20:58,871 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:51-05:00, Minutes away: 31.0
+2025-01-19 19:20:58,872 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:20:58,873 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,874 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:21
+2025-01-19 19:20:58,875 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:21-05:00, Minutes away: 42.0
+2025-01-19 19:20:58,876 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,877 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:20:58,877 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:21-05:00, Minutes away: 6.0
+2025-01-19 19:20:58,875 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:20:58,879 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 54.0
+2025-01-19 19:20:58,879 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:20:58,880 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:20:58,880 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 21.0
+2025-01-19 19:20:58,881 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,882 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 21m', 21.0)
+2025-01-19 19:20:58,884 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 33.0
+2025-01-19 19:20:58,882 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:20:58,885 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,884 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:10:30
+2025-01-19 19:20:58,886 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 66.0
+2025-01-19 19:20:58,886 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:20:58,887 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:10:30-05:00, Minutes away: 49.0
+2025-01-19 19:20:58,887 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,888 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:26:30
+2025-01-19 19:20:58,889 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 78.0
+2025-01-19 19:20:58,889 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,889 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:20:58,891 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:20:58,891 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:26:30-05:00, Minutes away: 65.0
+2025-01-19 19:20:58,891 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,893 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,893 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 102.0
+2025-01-19 19:20:58,894 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 90.0
+2025-01-19 19:20:58,895 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,895 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:20:58,911 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 6m', 6.0), ('@ 168 St 21m', 21.0)]
+2025-01-19 19:21:08,959 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:21:09,073 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:21:09,345 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13037
+2025-01-19 19:21:09,355 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:21:09,355 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:21:09,383 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:21:09,432 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:20:43
+2025-01-19 19:21:09,432 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:44:21
+2025-01-19 19:21:09,436 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:51
+2025-01-19 19:21:09,436 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:03:21
+2025-01-19 19:21:09,438 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:20:43-05:00, Minutes away: -1.0
+2025-01-19 19:21:09,438 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:44:21-05:00, Minutes away: 23.0
+2025-01-19 19:21:09,439 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:21:09,439 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 23m', 23.0)
+2025-01-19 19:21:09,441 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:51-05:00, Minutes away: 31.0
+2025-01-19 19:21:09,443 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:21
+2025-01-19 19:21:09,443 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:03:21-05:00, Minutes away: 42.0
+2025-01-19 19:21:09,444 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,445 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:21:09,447 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:21-05:00, Minutes away: 6.0
+2025-01-19 19:21:09,447 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 21.0
+2025-01-19 19:21:09,448 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:21:09,449 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,449 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:21:09,450 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 21m', 21.0)
+2025-01-19 19:21:09,451 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 53.0
+2025-01-19 19:21:09,452 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,452 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:21:09,453 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 33.0
+2025-01-19 19:21:09,453 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:21:09,454 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,455 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 66.0
+2025-01-19 19:21:09,455 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:21:09,455 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:26:30
+2025-01-19 19:21:09,456 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:10:30
+2025-01-19 19:21:09,457 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 78.0
+2025-01-19 19:21:09,457 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:26:30-05:00, Minutes away: 65.0
+2025-01-19 19:21:09,458 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,458 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:10:30-05:00, Minutes away: 49.0
+2025-01-19 19:21:09,459 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,459 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,459 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,460 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:21:09,461 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 89.0
+2025-01-19 19:21:09,463 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,463 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:21:09,464 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 101.0
+2025-01-19 19:21:09,465 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:09,480 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 23m', 23.0), ('@ 168 St 6m', 6.0), ('@ 168 St 21m', 21.0)]
+2025-01-19 19:21:19,534 - train_times.fetch - INFO - Initializing NYCTFeed
+2025-01-19 19:21:19,821 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api-endpoint.mta.info:443
+2025-01-19 19:21:20,164 - urllib3.connectionpool - DEBUG - https://api-endpoint.mta.info:443 "GET /Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace HTTP/1.1" 200 13314
+2025-01-19 19:21:20,174 - train_times.fetch - INFO - NYCTFeed initialized successfully
+2025-01-19 19:21:20,175 - train_times.fetch - INFO - Filtering trips
+2025-01-19 19:21:20,203 - train_times.fetch - INFO - Number of trains found: 14
+2025-01-19 19:21:20,253 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:43:41
+2025-01-19 19:21:20,253 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:20:58
+2025-01-19 19:21:20,257 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:52:04
+2025-01-19 19:21:20,255 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:43:41-05:00, Minutes away: 22.0
+2025-01-19 19:21:20,259 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 22m', 22.0)
+2025-01-19 19:21:20,259 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:20:58-05:00, Minutes away: -1.0
+2025-01-19 19:21:20,259 - train_times.fetch - DEBUG - Train C has a negative minutes away value.
+2025-01-19 19:21:20,260 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:42:30
+2025-01-19 19:21:20,261 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:15:00
+2025-01-19 19:21:20,261 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:42:30-05:00, Minutes away: 21.0
+2025-01-19 19:21:20,261 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:15:00-05:00, Minutes away: 53.0
+2025-01-19 19:21:20,262 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 21m', 21.0)
+2025-01-19 19:21:20,262 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,257 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:27:45
+2025-01-19 19:21:20,263 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:27:45-05:00, Minutes away: 6.0
+2025-01-19 19:21:20,263 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:52:04-05:00, Minutes away: 30.0
+2025-01-19 19:21:20,264 - train_times.fetch - DEBUG - Added train time: ('@ Euclid Av 30m', 30.0)
+2025-01-19 19:21:20,264 - train_times.fetch - DEBUG - Added train time: ('@ 168 St 6m', 6.0)
+2025-01-19 19:21:20,265 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:02:36
+2025-01-19 19:21:20,267 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:02:36-05:00, Minutes away: 41.0
+2025-01-19 19:21:20,266 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 19:54:30
+2025-01-19 19:21:20,268 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:10:30
+2025-01-19 19:21:20,268 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:27:30
+2025-01-19 19:21:20,269 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:10:30-05:00, Minutes away: 49.0
+2025-01-19 19:21:20,269 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 19:54:30-05:00, Minutes away: 33.0
+2025-01-19 19:21:20,270 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,267 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,270 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:27:30-05:00, Minutes away: 66.0
+2025-01-19 19:21:20,272 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:26:30
+2025-01-19 19:21:20,271 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,272 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:39:30
+2025-01-19 19:21:20,272 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,273 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:39:30-05:00, Minutes away: 78.0
+2025-01-19 19:21:20,274 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:26:30-05:00, Minutes away: 65.0
+2025-01-19 19:21:20,275 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,275 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 21:03:00
+2025-01-19 19:21:20,276 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,276 - train_times.fetch - DEBUG - Original arrival time: 2025-01-19 20:51:00
+2025-01-19 19:21:20,277 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 21:03:00-05:00, Minutes away: 101.0
+2025-01-19 19:21:20,278 - train_times.fetch - DEBUG - Arrival time: 2025-01-19 20:51:00-05:00, Minutes away: 89.0
+2025-01-19 19:21:20,279 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,280 - train_times.fetch - DEBUG - Train C is more than 30 minutes away.
+2025-01-19 19:21:20,294 - train_times.fetch - INFO - Filtered train times: [('@ Euclid Av 22m', 22.0), ('@ Euclid Av 30m', 30.0), ('@ 168 St 6m', 6.0), ('@ 168 St 21m', 21.0)]
