@@ -20,22 +20,23 @@ options.cols = 64
 options.chain_length = 2
 options.parallel = 1
 options.hardware_mapping = "adafruit-hat"
-options.gpio_slowdown = 4
+options.gpio_slowdown = 3
+options.show_refresh_rate = True  # Use --led-show-refresh to see the refresh rate
+options.pwm_lsb_nanoseconds = 50  # led-pwm-lsb-nanoseconds=50
+options.pwm_bits = 5
 
 matrix = RGBMatrix(options=options)
 
-def draw_colored_text(draw, text, position, font, route_color, default_color):
-    """
-    Draws colored text on the image.
+# Mapping for route bullets
+route_mapping = {"A": "!", "C": "@", "E": "#"}
 
-    Args:
-        draw (ImageDraw.Draw): The drawing context.
-        text (str): The text to be drawn.
-        position (tuple): The (x, y) position to start drawing the text.
-        font (ImageFont): The font to use for the text.
-        route_color (tuple): The RGB color for route symbols.
-        default_color (tuple): The default RGB color for text.
+def map_route_id(route_id):
     """
+    Maps the route ID to the corresponding route bullet.
+    """
+    return route_mapping.get(route_id, route_id)
+
+def draw_colored_text(draw, text, position, font, route_color, default_color):
     x, y = position
     for char in text:
         draw.text(
@@ -47,33 +48,11 @@ def draw_colored_text(draw, text, position, font, route_color, default_color):
         x += draw.textbbox((x, y), char, font=font)[2] - x
 
 def draw_right_justified_text(draw, text, y, font, color, max_width):
-    """
-    Draws right-justified text on the image.
-
-    Args:
-        draw (ImageDraw.Draw): The drawing context.
-        text (str): The text to be drawn.
-        y (int): The y-coordinate to start drawing the text.
-        font (ImageFont): The font to use for the text.
-        color (tuple): The RGB color for the text.
-        max_width (int): The maximum width of the text area.
-    """
     text_width = draw.textbbox((0, 0), text, font=font)[2]
     x = max_width - text_width
     draw.text((x, y), text, font=font, fill=color)
 
 def truncate_text(text, font, max_width):
-    """
-    Truncates the text to fit within the specified width.
-
-    Args:
-        text (str): The text to be truncated.
-        font (ImageFont): The font to use for the text.
-        max_width (int): The maximum width of the text area.
-
-    Returns:
-        str: The truncated text with ellipsis if necessary.
-    """
     ellipsis = "..."
     while draw.textbbox((0, 0), text + ellipsis, font=font)[2] > max_width:
         if len(text) <= 1:
@@ -86,14 +65,6 @@ def truncate_text(text, font, max_width):
     )
 
 def draw_white_circle(draw, position, size):
-    """
-    Draws a white circle on the image under the route bullet. That way the letter shows up in white.
-
-    Args:
-        draw (ImageDraw.Draw): The drawing context.
-        position (tuple): The (x, y) position to draw the circle.
-        size (int): The diameter of the circle.
-    """
     x, y = position
     offset_x = 17
     offset_y = 1
@@ -103,21 +74,24 @@ def draw_white_circle(draw, position, size):
     )
 
 def update_display(closest_arrival, next_arrival, line_number):
-    """
-    Updates the LED matrix display with train arrival information.
+    logger.debug(f"update_display called with: closest_arrival={closest_arrival}, next_arrival={next_arrival}, line_number={line_number}")
 
-    Args:
-        closest_arrival (tuple): The closest train arrival information.
-        next_arrival (tuple): The next train arrival information to display on the second line.
-        line_number (int): The line number to display the next arrival.
-    """
+    # Print the information to be displayed
+    print(f"Displaying on matrix:")
+    print(f" - Closest arrival: {closest_arrival}")
+    print(f" - Next arrival: {next_arrival}")
+    print(f" - Line number: {line_number}")
+
     draw.rectangle((0, 0, matrix_width, matrix_height), fill=(0, 0, 0))
     blue_color = hex_to_rgb("#003986")
     circle_size = font_size - 6
 
     if closest_arrival[0] != "No trains available":
         closest_parts = closest_arrival[0].rsplit(" ", 1)
-        closest_headsign = truncate_text(closest_parts[0].replace("train", "").strip(), font, matrix_width - 30)
+        route_id = closest_parts[0].split()[0]  # Extract route ID
+        headsign_text = " ".join(closest_parts[0].split()[1:]).replace("Train", "").strip()  # Remove "Train" and extract headsign
+        mapped_route = map_route_id(route_id)
+        closest_headsign = truncate_text(f"{mapped_route} {headsign_text}", font, matrix_width - 30)
         arrival_time = closest_parts[1]
 
         draw_white_circle(draw, (0, 0), circle_size)
@@ -128,10 +102,12 @@ def update_display(closest_arrival, next_arrival, line_number):
             draw, arrival_time, 0, font, (255, 255, 255), matrix_width
         )
 
-    # Display the next arrival on the second line, if available
     if next_arrival[0]:
         next_parts = next_arrival[0].rsplit(" ", 1)
-        next_headsign = truncate_text(next_parts[0].replace("train", "").strip(), font, matrix_width - 30)
+        route_id = next_parts[0].split()[0]  # Extract route ID
+        headsign_text = " ".join(next_parts[0].split()[1:]).replace("Train", "").strip()  # Remove "Train" and extract headsign
+        mapped_route = map_route_id(route_id)
+        next_headsign = truncate_text(f"{mapped_route} {headsign_text}", font, matrix_width - 30)
         arrival_time = next_parts[1]
 
         draw_white_circle(draw, (0, 16), circle_size)
