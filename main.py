@@ -1,102 +1,178 @@
+"""
+NYC Subway Clock - Main application
+Displays real-time subway arrival times on an LED matrix
+"""
 import logging
-import os
-import time
 import sys
+import time
 import pytz
+from pathlib import Path
 
-print("Python Path:", sys.path)
+from config import Config
+from train_times import fetch_train_times
+from display import DisplayManager
 
-latitude = float(os.getenv("LATITUDE", "40.682387"))
-longitude = float(os.getenv("LONGITUDE", "-73.963004"))
-nyc_tz = "America/New_York"
+# Configure logging
+def setup_logging():
+    """Configure logging with both file and console output."""
+    log_file = Path(Config.LOG_FILE)
+    log_file.parent.mkdir(parents=True, exist_ok=True)
 
-print(f"LATITUDE: {latitude}, LONGITUDE: {longitude}, NYC_TZ: {nyc_tz}")
+    # Create formatter
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
-try:
-    tz = pytz.timezone(nyc_tz)
-    print(f"Timezone '{nyc_tz}' is valid.")
-except pytz.UnknownTimeZoneError:
-    print(f"Timezone '{nyc_tz}' is not valid.")
-    sys.exit(1)
+    # File handler
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
 
-from train_times.fetch import fetch_train_times
-from display.update import update_display
-from utils.helpers import get_current_time
+    # Console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.INFO)
+    console_handler.setFormatter(formatter)
+
+    # Root logger configuration
+    root_logger = logging.getLogger()
+    root_logger.setLevel(getattr(logging, Config.LOG_LEVEL.upper(), logging.INFO))
+    root_logger.addHandler(file_handler)
+    root_logger.addHandler(console_handler)
+
 
 logger = logging.getLogger(__name__)
 
-def main():
-    trips_path = "nyct-gtfs/nyct_gtfs/gtfs_static/trips.txt"
-    stops_path = "nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt"
 
-    try:
-        with open(trips_path, "r") as f:
-            trips_content = f.read()
-            logger.info("Trips file read successfully.")
-    except PermissionError as e:
-        logger.error(f"PermissionError: {e}")
+def cycle_display(display_manager, train_times_data):
+    """
+    Cycle through train arrivals on the display.
+
+    Args:
+        display_manager: DisplayManager instance
+        train_times_data: List of train arrival tuples [(text, minutes), ...]
+
+    This function displays the closest arrival and cycles through the next 2-3 arrivals.
+    """
+    if not train_times_data:
+        no_trains = ("No trains available", 0)
+        display_manager.update_display(no_trains, ("", 0), Config.SECONDARY_INDEX_BASE)
         return
 
-    try:
-        with open(stops_path, "r") as f:
-            stops_content = f.read()
-            logger.info("Stops file read successfully.")
-    except PermissionError as e:
-        logger.error(f"PermissionError: {e}")
+    # Closest arrival stays on line 1
+    closest_arrival = train_times_data[0]
+
+    # Next arrivals to cycle through on line 2
+    next_arrivals = train_times_data[1 : Config.MAX_TRAINS_DISPLAY]
+
+    if not next_arrivals:
+        # Only one train available
+        display_manager.update_display(closest_arrival, ("", 0), Config.SECONDARY_INDEX_BASE)
         return
 
+    # Display the first next arrival initially
+    secondary_index = 0
+    next_arrival = next_arrivals[secondary_index]
+    line_number = secondary_index + Config.SECONDARY_INDEX_BASE
+    display_manager.update_display(closest_arrival, next_arrival, line_number)
+    time.sleep(Config.DISPLAY_REFRESH_INITIAL)
+
+    # Cycle through remaining arrivals
     while True:
-        current_time_nyc = get_current_time(nyc_tz)
-        train_times_data = fetch_train_times(trips_content, stops_content, nyc_tz)
+        secondary_index = (secondary_index + 1) % len(next_arrivals)
+        next_arrival = next_arrivals[secondary_index]
+        line_number = secondary_index + Config.SECONDARY_INDEX_BASE
 
-        if train_times_data:
-            closest_arrival = (
-                train_times_data[0] if len(train_times_data) > 0 else ("No trains available", 0)
-            )
-            next_arrivals = train_times_data[1:4] if len(train_times_data) > 1 else []
-        else:
-            closest_arrival = ("No trains available", 0)
-            next_arrivals = []
+        display_manager.update_display(closest_arrival, next_arrival, line_number)
+        time.sleep(Config.DISPLAY_REFRESH_CYCLE)
 
-        secondary_index = 0
+        # If we've cycled back to the start, break to fetch fresh data
+        if secondary_index == 0:
+            break
 
-        if next_arrivals:
-            next_arrival = next_arrivals[secondary_index]
-            line_number = secondary_index + 2
-        else:
-            next_arrival = ("No trains available", 0)
-            line_number = 2
 
-        update_display(closest_arrival, next_arrival, line_number)
-        time.sleep(3)
+def main():
+    """Main application loop."""
+    # Setup logging first
+    setup_logging()
+    logger.info("=" * 60)
+    logger.info("NYC Subway Clock Starting")
+    logger.info("=" * 60)
 
-        while True:
-            if secondary_index == 0:
-                current_time_nyc = get_current_time(nyc_tz)
-                train_times_data = fetch_train_times(trips_content, stops_content, nyc_tz)
-                if train_times_data:
-                    closest_arrival = (
-                        train_times_data[0] if len(train_times_data) > 0 else ("No trains available", 0)
-                    )
-                    next_arrivals = train_times_data[1:4] if len(train_times_data) > 1 else []
-                else:
-                    closest_arrival = ("No trains available", 0)
-                    next_arrivals = []
+    # Validate configuration
+    try:
+        Config.validate()
+        logger.info("Configuration validated successfully")
+    except ValueError as e:
+        logger.error(f"Configuration error: {e}")
+        sys.exit(1)
 
-            if next_arrivals:
-                next_arrival = next_arrivals[secondary_index]
-                line_number = secondary_index + 2
+    # Log configuration
+    logger.info(f"Subway Route: {Config.SUBWAY_ROUTE}")
+    logger.info(f"Stop IDs: {Config.STOP_IDS}")
+    logger.info(f"Timezone: {Config.TIMEZONE}")
+    logger.info(f"Display: {Config.MATRIX_COLS * Config.MATRIX_CHAIN_LENGTH}x{Config.MATRIX_ROWS}")
+
+    # Set up timezone (convert once, use everywhere)
+    try:
+        nyc_tz = pytz.timezone(Config.TIMEZONE)
+        logger.info(f"Timezone '{Config.TIMEZONE}' loaded successfully")
+    except pytz.UnknownTimeZoneError:
+        logger.error(f"Invalid timezone: {Config.TIMEZONE}")
+        sys.exit(1)
+
+    # Read GTFS static files once at startup
+    try:
+        logger.info(f"Reading GTFS files...")
+        with open(Config.TRIPS_FILE, "r") as f:
+            trips_content = f.read()
+            logger.info(f"Loaded {len(trips_content)} bytes from trips.txt")
+
+        with open(Config.STOPS_FILE, "r") as f:
+            stops_content = f.read()
+            logger.info(f"Loaded {len(stops_content)} bytes from stops.txt")
+    except FileNotFoundError as e:
+        logger.error(f"GTFS file not found: {e}")
+        sys.exit(1)
+    except Exception as e:
+        logger.error(f"Error reading GTFS files: {e}")
+        sys.exit(1)
+
+    # Initialize display manager
+    try:
+        logger.info("Initializing display manager...")
+        display_manager = DisplayManager()
+        logger.info("Display manager initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize display: {e}")
+        sys.exit(1)
+
+    # Main loop - fetch train data and display it
+    logger.info("Entering main loop")
+    while True:
+        try:
+            # Fetch fresh train times
+            logger.debug("Fetching train times...")
+            train_times_data = fetch_train_times(trips_content, stops_content, nyc_tz)
+
+            if train_times_data:
+                logger.info(f"Fetched {len(train_times_data)} train arrivals")
             else:
-                next_arrival = ("No trains available", 0)
-                line_number = 2
+                logger.warning("No train data available")
 
-            if next_arrivals:
-                secondary_index = (secondary_index + 1) % len(next_arrivals)
-            else:
-                secondary_index = 0
+            # Display and cycle through arrivals
+            cycle_display(display_manager, train_times_data)
 
-            update_display(closest_arrival, next_arrival, line_number)
-            time.sleep(5)
+        except KeyboardInterrupt:
+            logger.info("Received keyboard interrupt, shutting down...")
+            break
+        except Exception as e:
+            logger.error(f"Unexpected error in main loop: {e}", exc_info=True)
+            # Wait a bit before retrying to avoid tight error loops
+            time.sleep(10)
+
+    logger.info("NYC Subway Clock shutdown complete")
+
 
 if __name__ == "__main__":
     main()

@@ -2,130 +2,173 @@ import logging
 from utils.helpers import hex_to_rgb, truncate_text
 from PIL import Image, ImageDraw, ImageFont
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from config import Config
 
 logger = logging.getLogger(__name__)
 
-font_path = "/root/nycsubwayclock/MTA.ttf"
-font_size = 16
-font = ImageFont.truetype(font_path, font_size)
 
-matrix_width = 128
-matrix_height = 32
-image = Image.new("RGB", (matrix_width, matrix_height), color=(0, 0, 0))
-draw = ImageDraw.Draw(image)
+# Mapping for route bullets (used with custom MTA font)
+ROUTE_TO_BULLET = {"A": "!", "C": "@", "E": "#"}
 
-options = RGBMatrixOptions()
-options.rows = 32
-options.cols = 64
-options.chain_length = 2
-options.parallel = 1
-options.hardware_mapping = "adafruit-hat"
-options.gpio_slowdown = 3
-options.show_refresh_rate = True  # Use --led-show-refresh to see the refresh rate
-options.pwm_lsb_nanoseconds = 50  # led-pwm-lsb-nanoseconds=50
-options.pwm_bits = 5
 
-matrix = RGBMatrix(options=options)
-
-# Mapping for route bullets
-route_mapping = {"A": "!", "C": "@", "E": "#"}
-
-def map_route_id(route_id):
+def map_route_to_bullet(route_id):
     """
-    Maps the route ID to the corresponding route bullet.
+    Maps the route ID to the corresponding bullet character for the MTA font.
+    The MTA.ttf font uses special characters for route bullets:
+    ! = A train, @ = C train, # = E train
     """
-    return route_mapping.get(route_id, route_id)
+    return ROUTE_TO_BULLET.get(route_id, route_id)
 
-def draw_colored_text(draw, text, position, font, route_color, default_color):
-    x, y = position
-    for char in text:
-        draw.text(
-            (x, y),
-            char,
-            font=font,
-            fill=route_color if char in "!@#" else default_color,
-        )
-        x += draw.textbbox((x, y), char, font=font)[2] - x
 
-def draw_right_justified_text(draw, text, y, font, color, max_width):
-    text_width = draw.textbbox((0, 0), text, font=font)[2]
-    x = max_width - text_width
-    draw.text((x, y), text, font=font, fill=color)
+class DisplayManager:
+    """
+    Manages the LED matrix display for subway arrival times.
+    Encapsulates all display state and configuration.
+    """
 
-def truncate_text(text, font, max_width):
-    ellipsis = "..."
-    while draw.textbbox((0, 0), text + ellipsis, font=font)[2] > max_width:
-        if len(text) <= 1:
-            return ellipsis
-        text = text[:-1]
-    return (
-        text + ellipsis
-        if draw.textbbox((0, 0), text, font=font)[2] > max_width
-        else text
-    )
+    def __init__(self, config=None):
+        """
+        Initialize the DisplayManager with configuration.
 
-def draw_white_circle(draw, position, size):
-    x, y = position
-    offset_x = 17
-    offset_y = 1
-    draw.ellipse(
-        (x + offset_x, y + offset_y, x + offset_x + size, y + offset_y + size),
-        fill=(255, 255, 255),
-    )
+        Args:
+            config: Config object (defaults to global Config if not provided)
+        """
+        self.config = config or Config
 
-def update_display(closest_arrival, next_arrival, line_number):
-    logger.debug(f"update_display called with: closest_arrival={closest_arrival}, next_arrival={next_arrival}, line_number={line_number}")
+        # Font setup
+        self.font = ImageFont.truetype(self.config.FONT_PATH, self.config.FONT_SIZE)
 
-    # Print the information to be displayed
-    print(f"Displaying on matrix:")
-    print(f" - Closest arrival: {closest_arrival}")
-    print(f" - Next arrival: {next_arrival}")
-    print(f" - Line number: {line_number}")
+        # Matrix dimensions
+        self.matrix_width = self.config.MATRIX_COLS * self.config.MATRIX_CHAIN_LENGTH
+        self.matrix_height = self.config.MATRIX_ROWS
 
-    draw.rectangle((0, 0, matrix_width, matrix_height), fill=(0, 0, 0))
-    blue_color = hex_to_rgb("#003986")
-    circle_size = font_size - 6
+        # Image and draw objects
+        self.image = Image.new("RGB", (self.matrix_width, self.matrix_height), color=(0, 0, 0))
+        self.draw = ImageDraw.Draw(self.image)
 
-    if closest_arrival[0] != "No trains available":
-        closest_parts = closest_arrival[0].rsplit(" ", 1)
-        route_id = closest_parts[0].split()[0]  # Extract route ID
-        headsign_text = " ".join(closest_parts[0].split()[1:]).replace("Train", "").strip()  # Remove "Train" and extract headsign
-        mapped_route = map_route_id(route_id)
-        closest_headsign = truncate_text(f"{mapped_route} {headsign_text}", font, matrix_width - 30)
-        arrival_time = closest_parts[1]
+        # Matrix setup
+        options = RGBMatrixOptions()
+        options.rows = self.config.MATRIX_ROWS
+        options.cols = self.config.MATRIX_COLS
+        options.chain_length = self.config.MATRIX_CHAIN_LENGTH
+        options.parallel = 1
+        options.hardware_mapping = self.config.MATRIX_HARDWARE_MAPPING
+        options.gpio_slowdown = self.config.MATRIX_GPIO_SLOWDOWN
+        options.show_refresh_rate = self.config.MATRIX_SHOW_REFRESH_RATE
+        options.pwm_lsb_nanoseconds = self.config.MATRIX_PWM_LSB_NANOSECONDS
+        options.pwm_bits = self.config.MATRIX_PWM_BITS
 
-        draw_white_circle(draw, (0, 0), circle_size)
-        draw_colored_text(
-            draw, f"1. {closest_headsign}", (0, 0), font, blue_color, (255, 255, 255)
-        )
-        draw_right_justified_text(
-            draw, arrival_time, 0, font, (255, 255, 255), matrix_width
-        )
+        self.matrix = RGBMatrix(options=options)
 
-    if next_arrival[0]:
-        next_parts = next_arrival[0].rsplit(" ", 1)
-        route_id = next_parts[0].split()[0]  # Extract route ID
-        headsign_text = " ".join(next_parts[0].split()[1:]).replace("Train", "").strip()  # Remove "Train" and extract headsign
-        mapped_route = map_route_id(route_id)
-        next_headsign = truncate_text(f"{mapped_route} {headsign_text}", font, matrix_width - 30)
-        arrival_time = next_parts[1]
+        # Display colors
+        self.blue_color = hex_to_rgb("#003986")  # MTA blue
+        self.white_color = (255, 255, 255)
+        self.circle_size = self.config.FONT_SIZE - 6
 
-        draw_white_circle(draw, (0, 16), circle_size)
-        draw_colored_text(
-            draw,
-            f"{line_number}. {next_headsign}",
-            (0, 16),
-            font,
-            blue_color,
-            (255, 255, 255),
-        )
-        draw_right_justified_text(
-            draw, arrival_time, 16, font, (255, 255, 255), matrix_width
+        logger.info(f"DisplayManager initialized: {self.matrix_width}x{self.matrix_height}")
+
+    def draw_colored_text(self, text, position, route_color, default_color):
+        """
+        Draw text with special coloring for route bullets.
+        Route bullets (!@#) are colored with route_color, other text with default_color.
+        """
+        x, y = position
+        for char in text:
+            self.draw.text(
+                (x, y),
+                char,
+                font=self.font,
+                fill=route_color if char in "!@#" else default_color,
+            )
+            x += self.draw.textbbox((x, y), char, font=self.font)[2] - x
+
+    def draw_right_justified_text(self, text, y, color, max_width):
+        """Draw text right-justified within max_width."""
+        text_width = self.draw.textbbox((0, 0), text, font=self.font)[2]
+        x = max_width - text_width
+        self.draw.text((x, y), text, font=self.font, fill=color)
+
+    def draw_white_circle(self, position, size):
+        """Draw a white circle at the given position."""
+        x, y = position
+        offset_x = 17
+        offset_y = 1
+        self.draw.ellipse(
+            (x + offset_x, y + offset_y, x + offset_x + size, y + offset_y + size),
+            fill=self.white_color,
         )
 
-    image_rgb = image.convert("RGB")
-    pixels = image_rgb.load()
-    for x in range(matrix_width):
-        for y in range(matrix_height):
-            r, g, b = pixels[x, y]
-            matrix.SetPixel(x, y, r, g, b)
+    def update_display(self, closest_arrival, next_arrival, line_number):
+        """
+        Update the LED matrix display with train arrival information.
+
+        Args:
+            closest_arrival: Tuple of (arrival_text, minutes_away) for the closest train
+            next_arrival: Tuple of (arrival_text, minutes_away) for the next train
+            line_number: Line number to display for the next train (2, 3, or 4)
+        """
+        logger.debug(
+            f"update_display: closest={closest_arrival}, next={next_arrival}, line={line_number}"
+        )
+
+        # Print to console for debugging
+        print(f"Displaying on matrix:")
+        print(f" - Closest arrival: {closest_arrival}")
+        print(f" - Next arrival: {next_arrival}")
+        print(f" - Line number: {line_number}")
+
+        # Clear the display
+        self.draw.rectangle((0, 0, self.matrix_width, self.matrix_height), fill=(0, 0, 0))
+
+        # Display closest arrival on line 1
+        if closest_arrival[0] != "No trains available":
+            closest_parts = closest_arrival[0].rsplit(" ", 1)
+            route_id = closest_parts[0].split()[0]  # Extract route ID
+            headsign_text = (
+                " ".join(closest_parts[0].split()[1:]).replace("Train", "").strip()
+            )
+            mapped_route = map_route_to_bullet(route_id)
+            closest_headsign = truncate_text(
+                f"{mapped_route} {headsign_text}", self.font, self.matrix_width - 30
+            )
+            arrival_time = closest_parts[1]
+
+            self.draw_white_circle((0, 0), self.circle_size)
+            self.draw_colored_text(
+                f"1. {closest_headsign}", (0, 0), self.blue_color, self.white_color
+            )
+            self.draw_right_justified_text(
+                arrival_time, 0, self.white_color, self.matrix_width
+            )
+
+        # Display next arrival on line 2
+        if next_arrival[0]:
+            next_parts = next_arrival[0].rsplit(" ", 1)
+            route_id = next_parts[0].split()[0]  # Extract route ID
+            headsign_text = (
+                " ".join(next_parts[0].split()[1:]).replace("Train", "").strip()
+            )
+            mapped_route = map_route_to_bullet(route_id)
+            next_headsign = truncate_text(
+                f"{mapped_route} {headsign_text}", self.font, self.matrix_width - 30
+            )
+            arrival_time = next_parts[1]
+
+            self.draw_white_circle((0, 16), self.circle_size)
+            self.draw_colored_text(
+                f"{line_number}. {next_headsign}",
+                (0, 16),
+                self.blue_color,
+                self.white_color,
+            )
+            self.draw_right_justified_text(
+                arrival_time, 16, self.white_color, self.matrix_width
+            )
+
+        # Render to matrix
+        image_rgb = self.image.convert("RGB")
+        pixels = image_rgb.load()
+        for x in range(self.matrix_width):
+            for y in range(self.matrix_height):
+                r, g, b = pixels[x, y]
+                self.matrix.SetPixel(x, y, r, g, b)

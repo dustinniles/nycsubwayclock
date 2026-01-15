@@ -32,7 +32,7 @@ def truncate_text(text, font, max_width):
 
     return text + ellipsis if text else text
 
-def map_route_id(route_id):
+def map_route_to_name(route_id):
     """
     Maps a route_id to a human-readable name.
     """
