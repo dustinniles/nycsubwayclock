@@ -14,7 +14,7 @@ from display import DisplayManager
 
 # Configure logging
 def setup_logging():
-    """Configure logging with both file and console output."""
+    """Configure logging with both file and console output with rotation."""
     log_file = Path(Config.LOG_FILE)
     log_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -24,8 +24,13 @@ def setup_logging():
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    # File handler
-    file_handler = logging.FileHandler(log_file)
+    # Rotating file handler - prevents logs from growing unbounded
+    from logging.handlers import RotatingFileHandler
+    file_handler = RotatingFileHandler(
+        log_file,
+        maxBytes=Config.LOG_MAX_BYTES,
+        backupCount=Config.LOG_BACKUP_COUNT,
+    )
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
 

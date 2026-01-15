@@ -51,6 +51,8 @@ class Config:
     # Logging configuration
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
     LOG_FILE: str = os.getenv("LOG_FILE", str(PROJECT_ROOT / "logs" / "subway_clock.log"))
+    LOG_MAX_BYTES: int = int(os.getenv("LOG_MAX_BYTES", str(10 * 1024 * 1024)))  # 10MB default
+    LOG_BACKUP_COUNT: int = int(os.getenv("LOG_BACKUP_COUNT", "5"))  # Keep 5 old logs
 
     # GTFS static files
     TRIPS_FILE: str = str(PROJECT_ROOT / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "trips.txt")
