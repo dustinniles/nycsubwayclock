@@ -101,6 +101,8 @@ python main.py
 
 Logs will be written to `logs/subway_clock.log`.
 
+**For 24/7 operation:** See [RUNNING_CONTINUOUSLY.md](RUNNING_CONTINUOUSLY.md) for setting up auto-start on boot, monitoring, and maintenance recommendations.
+
 ## Configuration Options
 
 All configuration is done through the `.env` file. Here are the available options:
@@ -119,6 +121,8 @@ All configuration is done through the `.env` file. Here are the available option
 | `MATRIX_GPIO_SLOWDOWN` | GPIO slowdown (3-4 for Pi 3/4) | 3 |
 | `FONT_PATH` | Path to MTA font file | MTA.ttf |
 | `LOG_LEVEL` | Logging level (DEBUG, INFO, WARNING) | INFO |
+| `LOG_MAX_BYTES` | Max log file size before rotation | 10485760 (10MB) |
+| `LOG_BACKUP_COUNT` | Number of old log files to keep | 5 |
 
 ## Customization Examples
 
