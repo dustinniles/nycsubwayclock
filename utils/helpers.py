@@ -22,15 +22,13 @@ def truncate_text(text, font, max_width):
     """
     Truncate the text so that it fits within the specified width.
     """
-    ellipsis = "..."
-    ellipsis_width = font.getbbox(ellipsis)[2] - font.getbbox(ellipsis)[0]
     text_width = font.getbbox(text)[2] - font.getbbox(text)[0]
 
     while text and text_width > max_width:
         text = text[:-1]
-        text_width = font.getbbox(text + ellipsis)[2] - font.getbbox(text + ellipsis)[0]
+        text_width = font.getbbox(text)[2] - font.getbbox(text)[0]
 
-    return text + ellipsis if text else text
+    return text
 
 def map_route_to_name(route_id):
     """
