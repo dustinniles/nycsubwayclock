@@ -20,6 +20,26 @@ def map_route_to_bullet(route_id):
     return ROUTE_TO_BULLET.get(route_id, route_id)
 
 
+def is_valid_train_data(arrival_tuple):
+    """
+    Check if arrival data represents actual train info (not error message).
+
+    Args:
+        arrival_tuple: Tuple of (arrival_text, minutes_away)
+
+    Returns:
+        bool: True if valid train data, False if error message or invalid
+    """
+    if not arrival_tuple or not arrival_tuple[0]:
+        return False
+    text = arrival_tuple[0]
+    # Check for known error messages
+    if text in ["No trains available", "Error", ""]:
+        return False
+    # Valid train data should have route ID and arrival time
+    return " " in text and len(text.split()) >= 2
+
+
 class DisplayManager:
     """
     Manages the LED matrix display for subway arrival times.
@@ -121,7 +141,7 @@ class DisplayManager:
         self.draw.rectangle((0, 0, self.matrix_width, self.matrix_height), fill=(0, 0, 0))
 
         # Display closest arrival on line 1
-        if closest_arrival[0] != "No trains available":
+        if is_valid_train_data(closest_arrival):
             closest_parts = closest_arrival[0].rsplit(" ", 1)
             route_id = closest_parts[0].split()[0]  # Extract route ID
             headsign_text = (
@@ -142,7 +162,7 @@ class DisplayManager:
             )
 
         # Display next arrival on line 2
-        if next_arrival[0]:
+        if is_valid_train_data(next_arrival):
             next_parts = next_arrival[0].rsplit(" ", 1)
             route_id = next_parts[0].split()[0]  # Extract route ID
             headsign_text = (
