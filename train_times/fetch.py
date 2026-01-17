@@ -21,7 +21,7 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
         max_retries: Maximum number of retry attempts on failure
 
     Returns:
-        List of tuples: [(arrival_text, minutes_away), ...]
+        List of dicts: [{'route_id': str, 'headsign': str, 'minutes': int, 'stop_id': str}, ...]
         Returns empty list on failure after retries.
     """
     cfg = config or Config
@@ -82,12 +82,12 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
 
                         # Only include trains within MAX_MINUTES_AWAY
                         if minutes_away <= cfg.MAX_MINUTES_AWAY:
-                            train_times.append(
-                                (
-                                    f"{map_route_to_name(train.route_id)} {headsign} {int(minutes_away)}m",
-                                    minutes_away,
-                                )
-                            )
+                            train_times.append({
+                                'route_id': train.route_id,
+                                'headsign': headsign,
+                                'minutes': int(minutes_away),
+                                'stop_id': stop_id
+                            })
                             logger.debug(f"Added train time: {train_times[-1]}")
                         else:
                             logger.debug(
@@ -97,7 +97,7 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
                         logger.debug(f"Train {train.route_id} has a negative minutes away value.")
 
             logger.info(f"Filtered train times: {train_times}")
-            return sorted(train_times, key=lambda x: x[1])
+            return sorted(train_times, key=lambda x: x['minutes'])
 
         except Exception as e:
             logger.error(f"Error fetching train times (attempt {attempt + 1}/{max_retries}): {e}")

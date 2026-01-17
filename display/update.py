@@ -118,82 +118,51 @@ class DisplayManager:
             fill=self.white_color,
         )
 
-    def update_display(self, closest_arrival, next_arrival, line_number):
+    def update_display(self, northbound_trains, southbound_trains):
         """
-        Update the LED matrix display with train arrival information.
+        Update the LED matrix display with train arrival information by direction.
 
         Args:
-            closest_arrival: Tuple of (arrival_text, minutes_away) for the closest train
-            next_arrival: Tuple of (arrival_text, minutes_away) for the next train
-            line_number: Line number to display for the next train (2, 3, or 4)
+            northbound_trains: List of train dicts for northbound direction
+            southbound_trains: List of train dicts for southbound direction
         """
         logger.debug(
-            f"update_display: closest={closest_arrival}, next={next_arrival}, line={line_number}"
+            f"update_display: northbound={northbound_trains}, southbound={southbound_trains}"
         )
 
         # Print to console for debugging
         print(f"Displaying on matrix:")
-        print(f" - Closest arrival: {closest_arrival}")
-        print(f" - Next arrival: {next_arrival}")
-        print(f" - Line number: {line_number}")
+        print(f" - Northbound: {northbound_trains}")
+        print(f" - Southbound: {southbound_trains}")
 
         # Clear the display
         self.draw.rectangle((0, 0, self.matrix_width, self.matrix_height), fill=(0, 0, 0))
 
-        # Display closest arrival on line 1
-        if is_valid_train_data(closest_arrival):
-            closest_parts = closest_arrival[0].rsplit(" ", 1)
-            route_id = closest_parts[0].split()[0]  # Extract route ID
-            headsign_text = (
-                " ".join(closest_parts[0].split()[1:]).replace("Train", "").strip()
+        # Display northbound trains on line 1
+        if northbound_trains:
+            line_text = self._format_direction_line(
+                northbound_trains, self.config.DIRECTION_NORTH_LABEL
             )
-            mapped_route = map_route_to_bullet(route_id)
-            arrival_time = closest_parts[1]
-            
-            # Calculate time width to determine available space for headsign
-            time_width = self.draw.textbbox((0, 0), arrival_time, font=self.font)[2]
-            available_width = self.matrix_width - time_width - 10  # 10px padding between text and time
-            
-            closest_headsign = truncate_text(
-                f"{mapped_route} {headsign_text}", self.font, available_width
-            )
-
             self.draw_white_circle((0, 0), self.circle_size)
-            self.draw_colored_text(
-                f"1. {closest_headsign}", (0, 0), self.blue_color, self.white_color
-            )
-            self.draw_right_justified_text(
-                arrival_time, 0, self.white_color, self.matrix_width
-            )
+            self.draw_colored_text(line_text, (0, 0), self.blue_color, self.white_color)
+        else:
+            # Show direction label with no trains
+            line_text = f"{self.config.DIRECTION_NORTH_LABEL}   No trains"
+            self.draw_white_circle((0, 0), self.circle_size)
+            self.draw.text((0, 0), line_text, font=self.font, fill=self.white_color)
 
-        # Display next arrival on line 2
-        if is_valid_train_data(next_arrival):
-            next_parts = next_arrival[0].rsplit(" ", 1)
-            route_id = next_parts[0].split()[0]  # Extract route ID
-            headsign_text = (
-                " ".join(next_parts[0].split()[1:]).replace("Train", "").strip()
+        # Display southbound trains on line 2
+        if southbound_trains:
+            line_text = self._format_direction_line(
+                southbound_trains, self.config.DIRECTION_SOUTH_LABEL
             )
-            mapped_route = map_route_to_bullet(route_id)
-            arrival_time = next_parts[1]
-            
-            # Calculate time width to determine available space for headsign
-            time_width = self.draw.textbbox((0, 0), arrival_time, font=self.font)[2]
-            available_width = self.matrix_width - time_width - 10  # 10px padding between text and time
-            
-            next_headsign = truncate_text(
-                f"{mapped_route} {headsign_text}", self.font, available_width
-            )
-
             self.draw_white_circle((0, 16), self.circle_size)
-            self.draw_colored_text(
-                f"{line_number}. {next_headsign}",
-                (0, 16),
-                self.blue_color,
-                self.white_color,
-            )
-            self.draw_right_justified_text(
-                arrival_time, 16, self.white_color, self.matrix_width
-            )
+            self.draw_colored_text(line_text, (0, 16), self.blue_color, self.white_color)
+        else:
+            # Show direction label with no trains
+            line_text = f"{self.config.DIRECTION_SOUTH_LABEL}   No trains"
+            self.draw_white_circle((0, 16), self.circle_size)
+            self.draw.text((0, 16), line_text, font=self.font, fill=self.white_color)
 
         # Render to matrix
         image_rgb = self.image.convert("RGB")
@@ -202,3 +171,27 @@ class DisplayManager:
             for y in range(self.matrix_height):
                 r, g, b = pixels[x, y]
                 self.matrix.SetPixel(x, y, r, g, b)
+
+    def _format_direction_line(self, trains, direction_label):
+        """
+        Format a line showing multiple trains for a direction.
+
+        Args:
+            trains: List of train dicts [{'route_id': str, 'minutes': int, ...}, ...]
+            direction_label: Label for the direction (e.g., "MN", "BK")
+
+        Returns:
+            Formatted string like "MN   A 3m, C 5m"
+        """
+        # Format each train as "BULLET TIMEm"
+        train_parts = []
+        for train in trains:
+            bullet = map_route_to_bullet(train['route_id'])
+            time_str = f"{train['minutes']}m"
+            train_parts.append(f"{bullet} {time_str}")
+
+        # Join with commas
+        trains_text = ", ".join(train_parts)
+
+        # Return full line with direction label
+        return f"{direction_label}   {trains_text}"

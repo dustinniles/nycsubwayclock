@@ -29,6 +29,11 @@ class Config:
     STOP_IDS: List[str] = os.getenv("STOP_IDS", "A44N,A44S").split(",")
     MAX_TRAINS_DISPLAY: int = int(os.getenv("MAX_TRAINS_DISPLAY", "4"))
     MAX_MINUTES_AWAY: int = int(os.getenv("MAX_MINUTES_AWAY", "30"))
+    MAX_TRAINS_PER_DIRECTION: int = int(os.getenv("MAX_TRAINS_PER_DIRECTION", "3"))
+
+    # Direction labels (2-letter borough abbreviations: MN=Manhattan, BK=Brooklyn, QN=Queens, BX=Bronx, SI=Staten Island)
+    DIRECTION_NORTH_LABEL: str = os.getenv("DIRECTION_NORTH_LABEL", "MN")
+    DIRECTION_SOUTH_LABEL: str = os.getenv("DIRECTION_SOUTH_LABEL", "BK")
 
     # Display timing (in seconds)
     DISPLAY_REFRESH_INITIAL: int = int(os.getenv("DISPLAY_REFRESH_INITIAL", "3"))

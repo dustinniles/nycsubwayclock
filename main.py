@@ -51,49 +51,28 @@ logger = logging.getLogger(__name__)
 
 def cycle_display(display_manager, train_times_data):
     """
-    Cycle through train arrivals on the display.
+    Display train arrivals by direction (no cycling).
 
     Args:
         display_manager: DisplayManager instance
-        train_times_data: List of train arrival tuples [(text, minutes), ...]
+        train_times_data: List of train dicts [{'route_id': str, 'headsign': str, 'minutes': int, 'stop_id': str}, ...]
 
-    This function displays the closest arrival and cycles through the next 2-3 arrivals.
+    Displays trains separated by direction (Northbound on line 1, Southbound on line 2).
     """
     if not train_times_data:
-        no_trains = ("No trains available", 0)
-        display_manager.update_display(no_trains, ("", 0), Config.SECONDARY_INDEX_BASE)
-        return
-
-    # Closest arrival stays on line 1
-    closest_arrival = train_times_data[0]
-
-    # Next arrivals to cycle through on line 2
-    next_arrivals = train_times_data[1 : Config.MAX_TRAINS_DISPLAY]
-
-    if not next_arrivals:
-        # Only one train available
-        display_manager.update_display(closest_arrival, ("", 0), Config.SECONDARY_INDEX_BASE)
-        return
-
-    # Display the first next arrival initially
-    secondary_index = 0
-    next_arrival = next_arrivals[secondary_index]
-    line_number = secondary_index + Config.SECONDARY_INDEX_BASE
-    display_manager.update_display(closest_arrival, next_arrival, line_number)
-    time.sleep(Config.DISPLAY_REFRESH_INITIAL)
-
-    # Cycle through remaining arrivals
-    while True:
-        secondary_index = (secondary_index + 1) % len(next_arrivals)
-        next_arrival = next_arrivals[secondary_index]
-        line_number = secondary_index + Config.SECONDARY_INDEX_BASE
-
-        display_manager.update_display(closest_arrival, next_arrival, line_number)
+        display_manager.update_display([], [])
         time.sleep(Config.DISPLAY_REFRESH_CYCLE)
+        return
 
-        # If we've cycled back to the start, break to fetch fresh data
-        if secondary_index == 0:
-            break
+    # Separate trains by direction (N suffix = northbound, S suffix = southbound)
+    northbound_trains = [t for t in train_times_data if t['stop_id'].endswith('N')][:Config.MAX_TRAINS_PER_DIRECTION]
+    southbound_trains = [t for t in train_times_data if t['stop_id'].endswith('S')][:Config.MAX_TRAINS_PER_DIRECTION]
+
+    # Display both directions (no cycling)
+    display_manager.update_display(northbound_trains, southbound_trains)
+
+    # Wait before refreshing
+    time.sleep(Config.DISPLAY_REFRESH_CYCLE)
 
 
 def main():

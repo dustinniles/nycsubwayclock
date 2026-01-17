@@ -9,11 +9,20 @@ Display real-time NYC subway arrival times on an LED matrix using a Raspberry Pi
 
 - 🚇 Real-time subway arrival data from MTA GTFS feeds
 - 🎨 Custom MTA font for authentic subway line bullets
+- 🔀 Direction-based display showing both directions simultaneously
 - ⚡ Efficient, lightweight code optimized for Raspberry Pi
 - 🔧 Easy configuration via `.env` file - no code editing required
 - 📝 Comprehensive logging for debugging
 - 🔄 Automatic retry logic with exponential backoff
 - 📦 Clean, modular code structure
+
+## Display Format
+
+The display shows upcoming trains separated by direction:
+- **Line 1**: Northbound trains (e.g., "MN   A 3m, C 5m, E 7m")
+- **Line 2**: Southbound trains (e.g., "BK   F 2m, Q 6m")
+
+Direction labels are customizable using 2-letter borough codes (MN=Manhattan, BK=Brooklyn, QN=Queens, BX=Bronx, SI=Staten Island).
 
 ## Hardware Requirements
 
@@ -74,12 +83,15 @@ Edit the `.env` file to customize for your setup:
 # Subway Configuration - Change these for your stops!
 SUBWAY_ROUTE=C                    # Your subway line (A, C, E, 1, 2, 3, etc.)
 STOP_IDS=A44N,A44S                # Stop IDs (northbound, southbound)
-MAX_TRAINS_DISPLAY=4              # How many trains to show
+MAX_TRAINS_PER_DIRECTION=3        # Max trains to show per direction
 MAX_MINUTES_AWAY=30               # Max minutes out to display
 
+# Direction Labels (2-letter borough codes)
+DIRECTION_NORTH_LABEL=MN          # Label for northbound (MN, BK, QN, BX, SI)
+DIRECTION_SOUTH_LABEL=BK          # Label for southbound
+
 # Display Timing
-DISPLAY_REFRESH_INITIAL=3         # Seconds before first refresh
-DISPLAY_REFRESH_CYCLE=5           # Seconds between display updates
+DISPLAY_REFRESH_CYCLE=5           # Seconds between display refreshes
 
 # Matrix Hardware - Adjust for your LED matrix setup
 MATRIX_ROWS=32                    # Rows per matrix panel
@@ -111,10 +123,11 @@ All configuration is done through the `.env` file. Here are the available option
 |---------|-------------|---------|
 | `SUBWAY_ROUTE` | Subway line to display (A, C, E, 1, 2, etc.) | C |
 | `STOP_IDS` | Comma-separated stop IDs | A44N,A44S |
-| `MAX_TRAINS_DISPLAY` | Number of trains to cycle through | 4 |
+| `MAX_TRAINS_PER_DIRECTION` | Maximum trains to show per direction | 3 |
 | `MAX_MINUTES_AWAY` | Maximum minutes out to show | 30 |
-| `DISPLAY_REFRESH_INITIAL` | Initial display time (seconds) | 3 |
-| `DISPLAY_REFRESH_CYCLE` | Cycle time between trains (seconds) | 5 |
+| `DIRECTION_NORTH_LABEL` | Label for northbound direction (2 letters) | MN |
+| `DIRECTION_SOUTH_LABEL` | Label for southbound direction (2 letters) | BK |
+| `DISPLAY_REFRESH_CYCLE` | Seconds between display refreshes | 5 |
 | `MATRIX_ROWS` | LED matrix rows | 32 |
 | `MATRIX_COLS` | LED matrix columns | 64 |
 | `MATRIX_CHAIN_LENGTH` | Number of chained panels | 2 |
