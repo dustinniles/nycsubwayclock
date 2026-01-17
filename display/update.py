@@ -87,13 +87,25 @@ class DisplayManager:
 
         logger.info(f"DisplayManager initialized: {self.matrix_width}x{self.matrix_height}")
 
-    def draw_colored_text(self, text, position, route_color, default_color):
+    def draw_colored_text_with_circles(self, text, position, route_color, default_color):
         """
-        Draw text with special coloring for route bullets.
-        Route bullets (!@#) are colored with route_color, other text with default_color.
+        Draw text with special coloring for route bullets and white circles behind them.
+        Route bullets (!@#) are colored with route_color and have white circles behind them.
         """
         x, y = position
+        circle_offset_x = -2
+        circle_offset_y = 1
+
         for char in text:
+            # Draw white circle behind route bullets
+            if char in "!@#":
+                self.draw.ellipse(
+                    (x + circle_offset_x, y + circle_offset_y,
+                     x + circle_offset_x + self.circle_size, y + circle_offset_y + self.circle_size),
+                    fill=self.white_color,
+                )
+
+            # Draw the character
             self.draw.text(
                 (x, y),
                 char,
@@ -143,12 +155,10 @@ class DisplayManager:
             line_text = self._format_direction_line(
                 northbound_trains, self.config.DIRECTION_NORTH_LABEL
             )
-            self.draw_white_circle((0, 0), self.circle_size)
-            self.draw_colored_text(line_text, (0, 0), self.blue_color, self.white_color)
+            self.draw_colored_text_with_circles(line_text, (0, 0), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
             line_text = f"{self.config.DIRECTION_NORTH_LABEL}   No trains"
-            self.draw_white_circle((0, 0), self.circle_size)
             self.draw.text((0, 0), line_text, font=self.font, fill=self.white_color)
 
         # Display southbound trains on line 2
@@ -156,12 +166,10 @@ class DisplayManager:
             line_text = self._format_direction_line(
                 southbound_trains, self.config.DIRECTION_SOUTH_LABEL
             )
-            self.draw_white_circle((0, 16), self.circle_size)
-            self.draw_colored_text(line_text, (0, 16), self.blue_color, self.white_color)
+            self.draw_colored_text_with_circles(line_text, (0, 16), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
             line_text = f"{self.config.DIRECTION_SOUTH_LABEL}   No trains"
-            self.draw_white_circle((0, 16), self.circle_size)
             self.draw.text((0, 16), line_text, font=self.font, fill=self.white_color)
 
         # Render to matrix
@@ -185,13 +193,17 @@ class DisplayManager:
         """
         # Format each train as "BULLET TIMEm"
         train_parts = []
-        for train in trains:
+        for i, train in enumerate(trains):
             bullet = map_route_to_bullet(train['route_id'])
             time_str = f"{train['minutes']}m"
-            train_parts.append(f"{bullet} {time_str}")
+            # Add comma and space after all but the last train
+            if i < len(trains) - 1:
+                train_parts.append(f"{bullet} {time_str}, ")
+            else:
+                train_parts.append(f"{bullet} {time_str}")
 
-        # Join with commas
-        trains_text = ", ".join(train_parts)
+        # Join without additional separators (we already added commas above)
+        trains_text = "".join(train_parts)
 
-        # Return full line with direction label
-        return f"{direction_label}   {trains_text}"
+        # Return full line with direction label (4 spaces for better visibility)
+        return f"{direction_label}    {trains_text}"
