@@ -157,7 +157,10 @@ class DisplayManager:
             line_text = self._format_direction_line(
                 northbound_trains, self.config.DIRECTION_NORTH_LABEL
             )
-            self.draw_colored_text_with_circles(line_text, (0, 0), self.blue_color, self.white_color)
+            # Calculate x position to right-justify the text
+            text_width = self.draw.textbbox((0, 0), line_text, font=self.font)[2]
+            x_position = self.matrix_width - text_width
+            self.draw_colored_text_with_circles(line_text, (x_position, 0), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
             line_text = f"{self.config.DIRECTION_NORTH_LABEL}   No trains"
@@ -168,7 +171,10 @@ class DisplayManager:
             line_text = self._format_direction_line(
                 southbound_trains, self.config.DIRECTION_SOUTH_LABEL
             )
-            self.draw_colored_text_with_circles(line_text, (0, 16), self.blue_color, self.white_color)
+            # Calculate x position to right-justify the text
+            text_width = self.draw.textbbox((0, 0), line_text, font=self.font)[2]
+            x_position = self.matrix_width - text_width
+            self.draw_colored_text_with_circles(line_text, (x_position, 16), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
             line_text = f"{self.config.DIRECTION_SOUTH_LABEL}   No trains"
