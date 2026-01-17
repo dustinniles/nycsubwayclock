@@ -71,8 +71,8 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
                     minutes_away = (arrival_time - current_time_nyc).total_seconds() // 60
                     logger.debug(f"Arrival time: {arrival_time}, Minutes away: {minutes_away}")
 
-                    # Only include trains that haven't arrived yet
-                    if minutes_away >= 0:
+                    # Only include trains that are at least 1 minute away (0m trains can't be caught)
+                    if minutes_away >= 1:
                         # Clean up headsign text
                         headsign = "".join(
                             c

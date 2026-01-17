@@ -94,8 +94,8 @@ class DisplayManager:
         """
         x, y = position
         # Fine-tuned circle positioning to center behind route bullets
-        circle_offset_x = -1
-        circle_offset_y = 2
+        circle_offset_x = -2
+        circle_offset_y = 3
 
         for char in text:
             # Draw white circle behind route bullets
