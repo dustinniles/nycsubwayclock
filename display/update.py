@@ -185,6 +185,7 @@ class DisplayManager:
     def _format_direction_line(self, trains, direction_label):
         """
         Format a line showing multiple trains for a direction.
+        Dynamically fits as many trains as possible within the display width.
 
         Args:
             trains: List of train dicts [{'route_id': str, 'minutes': int, ...}, ...]
@@ -193,15 +194,30 @@ class DisplayManager:
         Returns:
             Formatted string like "MN   A 3m, C 5m"
         """
-        # Format each train as "BULLET TIMEm" without any separators
-        train_parts = []
-        for train in trains:
+        # Start with direction label
+        line_text = f"{direction_label}    "
+
+        # Add trains one at a time, checking width
+        added_trains = []
+        for i, train in enumerate(trains):
             bullet = map_route_to_bullet(train['route_id'])
             time_str = f"{train['minutes']}m"
-            train_parts.append(f"{bullet} {time_str}")
 
-        # Join with ", " separator - this automatically handles no trailing comma
-        trains_text = ", ".join(train_parts)
+            # Format this train with separator if not first
+            if i == 0:
+                train_text = f"{bullet} {time_str}"
+            else:
+                train_text = f", {bullet} {time_str}"
 
-        # Return full line with direction label (4 spaces for better visibility)
-        return f"{direction_label}    {trains_text}"
+            # Check if adding this train would exceed display width
+            test_line = line_text + train_text
+            text_width = self.draw.textbbox((0, 0), test_line, font=self.font)[2]
+
+            if text_width <= self.matrix_width:
+                line_text += train_text
+                added_trains.append(train)
+            else:
+                # Stop adding trains - we've run out of space
+                break
+
+        return line_text
