@@ -194,8 +194,8 @@ class DisplayManager:
         Returns:
             Formatted string like "MN   A 3m, C 5m"
         """
-        # Start with direction label
-        line_text = f"{direction_label}    "
+        # Start with direction label (single space to maximize room for trains)
+        line_text = f"{direction_label} "
 
         # Add trains one at a time, checking width
         added_trains = []
