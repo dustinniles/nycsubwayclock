@@ -95,7 +95,7 @@ class DisplayManager:
         x, y = position
         # Fine-tuned circle positioning to center behind route bullets
         # Positive x = right, positive y = down; negative x = left, negative y = up
-        circle_offset_x = 0
+        circle_offset_x = -1
         circle_offset_y = 1
 
         for char in text:
@@ -193,19 +193,15 @@ class DisplayManager:
         Returns:
             Formatted string like "MN   A 3m, C 5m"
         """
-        # Format each train as "BULLET TIMEm"
+        # Format each train as "BULLET TIMEm" without any separators
         train_parts = []
-        for i, train in enumerate(trains):
+        for train in trains:
             bullet = map_route_to_bullet(train['route_id'])
             time_str = f"{train['minutes']}m"
-            # Add comma and space after all but the last train
-            if i < len(trains) - 1:
-                train_parts.append(f"{bullet} {time_str}, ")
-            else:
-                train_parts.append(f"{bullet} {time_str}")
+            train_parts.append(f"{bullet} {time_str}")
 
-        # Join without additional separators (we already added commas above)
-        trains_text = "".join(train_parts)
+        # Join with ", " separator - this automatically handles no trailing comma
+        trains_text = ", ".join(train_parts)
 
         # Return full line with direction label (4 spaces for better visibility)
         return f"{direction_label}    {trains_text}"
