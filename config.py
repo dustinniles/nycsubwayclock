@@ -31,9 +31,10 @@ class Config:
     MAX_MINUTES_AWAY: int = int(os.getenv("MAX_MINUTES_AWAY", "30"))
     MAX_TRAINS_PER_DIRECTION: int = int(os.getenv("MAX_TRAINS_PER_DIRECTION", "3"))
 
-    # Direction labels (2-letter borough abbreviations: MN=Manhattan, BK=Brooklyn, QN=Queens, BX=Bronx, SI=Staten Island)
-    DIRECTION_NORTH_LABEL: str = os.getenv("DIRECTION_NORTH_LABEL", "MN")
-    DIRECTION_SOUTH_LABEL: str = os.getenv("DIRECTION_SOUTH_LABEL", "BK")
+    # Direction labels (2-letter borough abbreviations: Mn=Manhattan, Bk=Brooklyn, Qn=Queens, Bx=Bronx, Si=Staten Island)
+    # Note: Use lowercase for second letter as custom MTA font may not support all uppercase letters
+    DIRECTION_NORTH_LABEL: str = os.getenv("DIRECTION_NORTH_LABEL", "Mn")
+    DIRECTION_SOUTH_LABEL: str = os.getenv("DIRECTION_SOUTH_LABEL", "Bk")
 
     # Display timing (in seconds)
     DISPLAY_REFRESH_INITIAL: int = int(os.getenv("DISPLAY_REFRESH_INITIAL", "3"))

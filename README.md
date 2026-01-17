@@ -19,10 +19,10 @@ Display real-time NYC subway arrival times on an LED matrix using a Raspberry Pi
 ## Display Format
 
 The display shows upcoming trains separated by direction:
-- **Line 1**: Northbound trains (e.g., "MN   A 3m, C 5m, E 7m")
-- **Line 2**: Southbound trains (e.g., "BK   F 2m, Q 6m")
+- **Line 1**: Northbound trains (e.g., "Mn   A 3m, C 5m, E 7m")
+- **Line 2**: Southbound trains (e.g., "Bk   F 2m, Q 6m")
 
-Direction labels are customizable using 2-letter borough codes (MN=Manhattan, BK=Brooklyn, QN=Queens, BX=Bronx, SI=Staten Island).
+Direction labels are customizable using 2-letter borough codes (Mn=Manhattan, Bk=Brooklyn, Qn=Queens, Bx=Bronx, Si=Staten Island). Note: Use lowercase for the second letter as the custom MTA font may not support all uppercase letters.
 
 ## Hardware Requirements
 
@@ -86,9 +86,9 @@ STOP_IDS=A44N,A44S                # Stop IDs (northbound, southbound)
 MAX_TRAINS_PER_DIRECTION=3        # Max trains to show per direction
 MAX_MINUTES_AWAY=30               # Max minutes out to display
 
-# Direction Labels (2-letter borough codes)
-DIRECTION_NORTH_LABEL=MN          # Label for northbound (MN, BK, QN, BX, SI)
-DIRECTION_SOUTH_LABEL=BK          # Label for southbound
+# Direction Labels (2-letter borough codes - lowercase second letter)
+DIRECTION_NORTH_LABEL=Mn          # Label for northbound (Mn, Bk, Qn, Bx, Si)
+DIRECTION_SOUTH_LABEL=Bk          # Label for southbound
 
 # Display Timing
 DISPLAY_REFRESH_CYCLE=5           # Seconds between display refreshes
@@ -125,8 +125,8 @@ All configuration is done through the `.env` file. Here are the available option
 | `STOP_IDS` | Comma-separated stop IDs | A44N,A44S |
 | `MAX_TRAINS_PER_DIRECTION` | Maximum trains to show per direction | 3 |
 | `MAX_MINUTES_AWAY` | Maximum minutes out to show | 30 |
-| `DIRECTION_NORTH_LABEL` | Label for northbound direction (2 letters) | MN |
-| `DIRECTION_SOUTH_LABEL` | Label for southbound direction (2 letters) | BK |
+| `DIRECTION_NORTH_LABEL` | Label for northbound direction (2 letters, lowercase 2nd) | Mn |
+| `DIRECTION_SOUTH_LABEL` | Label for southbound direction (2 letters, lowercase 2nd) | Bk |
 | `DISPLAY_REFRESH_CYCLE` | Seconds between display refreshes | 5 |
 | `MATRIX_ROWS` | LED matrix rows | 32 |
 | `MATRIX_COLS` | LED matrix columns | 64 |

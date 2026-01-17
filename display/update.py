@@ -93,8 +93,9 @@ class DisplayManager:
         Route bullets (!@#) are colored with route_color and have white circles behind them.
         """
         x, y = position
-        circle_offset_x = -2
-        circle_offset_y = 1
+        # Fine-tuned circle positioning to center behind route bullets
+        circle_offset_x = -1
+        circle_offset_y = 2
 
         for char in text:
             # Draw white circle behind route bullets
