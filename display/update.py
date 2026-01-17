@@ -154,13 +154,14 @@ class DisplayManager:
 
         # Display northbound trains on line 1
         if northbound_trains:
-            line_text = self._format_direction_line(
-                northbound_trains, self.config.DIRECTION_NORTH_LABEL
-            )
-            # Calculate x position to right-justify the text
-            text_width = self.draw.textbbox((0, 0), line_text, font=self.font)[2]
+            # Draw direction label on the left
+            self.draw.text((0, 0), self.config.DIRECTION_NORTH_LABEL, font=self.font, fill=self.white_color)
+
+            # Format and draw train listings on the right
+            trains_text = self._format_trains_only(northbound_trains)
+            text_width = self.draw.textbbox((0, 0), trains_text, font=self.font)[2]
             x_position = self.matrix_width - text_width
-            self.draw_colored_text_with_circles(line_text, (x_position, 0), self.blue_color, self.white_color)
+            self.draw_colored_text_with_circles(trains_text, (x_position, 0), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
             line_text = f"{self.config.DIRECTION_NORTH_LABEL}   No trains"
@@ -168,13 +169,14 @@ class DisplayManager:
 
         # Display southbound trains on line 2
         if southbound_trains:
-            line_text = self._format_direction_line(
-                southbound_trains, self.config.DIRECTION_SOUTH_LABEL
-            )
-            # Calculate x position to right-justify the text
-            text_width = self.draw.textbbox((0, 0), line_text, font=self.font)[2]
+            # Draw direction label on the left
+            self.draw.text((0, 16), self.config.DIRECTION_SOUTH_LABEL, font=self.font, fill=self.white_color)
+
+            # Format and draw train listings on the right
+            trains_text = self._format_trains_only(southbound_trains)
+            text_width = self.draw.textbbox((0, 0), trains_text, font=self.font)[2]
             x_position = self.matrix_width - text_width
-            self.draw_colored_text_with_circles(line_text, (x_position, 16), self.blue_color, self.white_color)
+            self.draw_colored_text_with_circles(trains_text, (x_position, 16), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
             line_text = f"{self.config.DIRECTION_SOUTH_LABEL}   No trains"
@@ -188,23 +190,20 @@ class DisplayManager:
                 r, g, b = pixels[x, y]
                 self.matrix.SetPixel(x, y, r, g, b)
 
-    def _format_direction_line(self, trains, direction_label):
+    def _format_trains_only(self, trains):
         """
-        Format a line showing multiple trains for a direction.
-        Dynamically fits as many trains as possible within the display width.
+        Format train listings without direction label.
+        Dynamically fits as many trains as possible within available space.
 
         Args:
             trains: List of train dicts [{'route_id': str, 'minutes': int, ...}, ...]
-            direction_label: Label for the direction (e.g., "MN", "BK")
 
         Returns:
-            Formatted string like "MN   A 3m, C 5m"
+            Formatted string like "A 3m, C 5m, E 7m"
         """
-        # Start with direction label (single space to maximize room for trains)
-        line_text = f"{direction_label} "
+        line_text = ""
 
         # Add trains one at a time, checking width
-        added_trains = []
         for i, train in enumerate(trains):
             bullet = map_route_to_bullet(train['route_id'])
             time_str = f"{train['minutes']}m"
@@ -221,7 +220,6 @@ class DisplayManager:
 
             if text_width <= self.matrix_width:
                 line_text += train_text
-                added_trains.append(train)
             else:
                 # Stop adding trains - we've run out of space
                 break
