@@ -148,10 +148,15 @@ class DisplayManager:
                 " ".join(closest_parts[0].split()[1:]).replace("Train", "").strip()
             )
             mapped_route = map_route_to_bullet(route_id)
-            closest_headsign = truncate_text(
-                f"{mapped_route} {headsign_text}", self.font, self.matrix_width - 30
-            )
             arrival_time = closest_parts[1]
+            
+            # Calculate time width to determine available space for headsign
+            time_width = self.draw.textbbox((0, 0), arrival_time, font=self.font)[2]
+            available_width = self.matrix_width - time_width - 10  # 10px padding between text and time
+            
+            closest_headsign = truncate_text(
+                f"{mapped_route} {headsign_text}", self.font, available_width
+            )
 
             self.draw_white_circle((0, 0), self.circle_size)
             self.draw_colored_text(
@@ -169,10 +174,15 @@ class DisplayManager:
                 " ".join(next_parts[0].split()[1:]).replace("Train", "").strip()
             )
             mapped_route = map_route_to_bullet(route_id)
-            next_headsign = truncate_text(
-                f"{mapped_route} {headsign_text}", self.font, self.matrix_width - 30
-            )
             arrival_time = next_parts[1]
+            
+            # Calculate time width to determine available space for headsign
+            time_width = self.draw.textbbox((0, 0), arrival_time, font=self.font)[2]
+            available_width = self.matrix_width - time_width - 10  # 10px padding between text and time
+            
+            next_headsign = truncate_text(
+                f"{mapped_route} {headsign_text}", self.font, available_width
+            )
 
             self.draw_white_circle((0, 16), self.circle_size)
             self.draw_colored_text(

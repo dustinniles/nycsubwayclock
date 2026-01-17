@@ -77,7 +77,7 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
                         headsign = "".join(
                             c
                             for c in train.headsign_text.strip().replace('"', "")
-                            if c.isalnum() or c.isspace()
+                            if c.isalnum() or c.isspace() or c == "-"
                         )
 
                         # Only include trains within MAX_MINUTES_AWAY
