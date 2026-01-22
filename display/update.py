@@ -200,7 +200,7 @@ class DisplayManager:
             trains: List of train dicts [{'route_id': str, 'minutes': int, ...}, ...]
 
         Returns:
-            Formatted string like "A 3m, C 5m, E 7m"
+            Formatted string like "A 3m C 5m E 7m"
         """
         line_text = ""
 
@@ -213,7 +213,7 @@ class DisplayManager:
             if i == 0:
                 train_text = f"{bullet} {time_str}"
             else:
-                train_text = f", {bullet} {time_str}"
+                train_text = f" {bullet} {time_str}"
 
             # Check if adding this train would exceed display width
             test_line = line_text + train_text
