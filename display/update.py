@@ -184,12 +184,7 @@ class DisplayManager:
                 f"{mapped_route} {headsign_text}", self.font, available_width
             )
 
-            self.draw_white_circle((0, 16), self.circle_size)
-            self.draw_colored_text(
-                f"{line_number}. {next_headsign}",
-                (0, 16),
-                self.blue_color,
-                self.white_color,
+        self.matrix.SetImage(self.image.convert("RGB"))
             )
             self.draw_right_justified_text(
                 arrival_time, 16, self.white_color, self.matrix_width
