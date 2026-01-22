@@ -44,6 +44,8 @@ class Config:
     MATRIX_HARDWARE_MAPPING: str = os.getenv("MATRIX_HARDWARE_MAPPING", "adafruit-hat")
     MATRIX_SHOW_REFRESH_RATE: bool = os.getenv("MATRIX_SHOW_REFRESH_RATE", "true").lower() == "true"
     MATRIX_BRIGHTNESS: int = int(os.getenv("MATRIX_BRIGHTNESS", "50"))  # 0-100, lower values reduce power draw
+    MATRIX_LIMIT_REFRESH_HZ: int = int(os.getenv("MATRIX_LIMIT_REFRESH_HZ", "100"))
+    MATRIX_DISABLE_HARDWARE_PULSING: bool = os.getenv("MATRIX_DISABLE_HARDWARE_PULSING", "false").lower() == "true"
 
     # Font configuration
     FONT_PATH: str = os.getenv("FONT_PATH", str(PROJECT_ROOT / "MTA.ttf"))

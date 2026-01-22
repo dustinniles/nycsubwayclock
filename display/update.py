@@ -81,6 +81,9 @@ class DisplayManager:
 
         self.matrix = RGBMatrix(options=options)
 
+        # Create offscreen canvas for double buffering
+        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+
         # Display colors
         self.blue_color = hex_to_rgb("#003986")  # MTA blue
         self.white_color = (255, 255, 255)
@@ -196,5 +199,6 @@ class DisplayManager:
                 arrival_time, 16, self.white_color, self.matrix_width
             )
 
-        # Render to matrix
-        self.matrix.SetImage(self.image.convert("RGB"))
+        # Render to offscreen canvas then swap
+        self.offscreen_canvas.SetImage(self.image.convert("RGB"))
+        self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
