@@ -77,6 +77,7 @@ class DisplayManager:
         options.show_refresh_rate = self.config.MATRIX_SHOW_REFRESH_RATE
         options.pwm_lsb_nanoseconds = self.config.MATRIX_PWM_LSB_NANOSECONDS
         options.pwm_bits = self.config.MATRIX_PWM_BITS
+        options.brightness = self.config.MATRIX_BRIGHTNESS
 
         self.matrix = RGBMatrix(options=options)
 
