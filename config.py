@@ -43,6 +43,7 @@ class Config:
     MATRIX_PWM_BITS: int = int(os.getenv("MATRIX_PWM_BITS", "5"))
     MATRIX_HARDWARE_MAPPING: str = os.getenv("MATRIX_HARDWARE_MAPPING", "adafruit-hat")
     MATRIX_SHOW_REFRESH_RATE: bool = os.getenv("MATRIX_SHOW_REFRESH_RATE", "true").lower() == "true"
+    MATRIX_BRIGHTNESS: int = int(os.getenv("MATRIX_BRIGHTNESS", "50"))  # 0-100, lower values reduce power draw
 
     # Font configuration
     FONT_PATH: str = os.getenv("FONT_PATH", str(PROJECT_ROOT / "MTA.ttf"))
