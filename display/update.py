@@ -184,12 +184,7 @@ class DisplayManager:
             self.draw.text((0, 16), line_text, font=self.font, fill=self.white_color)
 
         # Render to matrix
-        image_rgb = self.image.convert("RGB")
-        pixels = image_rgb.load()
-        for x in range(self.matrix_width):
-            for y in range(self.matrix_height):
-                r, g, b = pixels[x, y]
-                self.matrix.SetPixel(x, y, r, g, b)
+        self.matrix.SetImage(self.image.convert("RGB"))
 
     def _format_trains_only(self, trains):
         """
