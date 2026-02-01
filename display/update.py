@@ -152,11 +152,11 @@ class DisplayManager:
             )
             mapped_route = map_route_to_bullet(route_id)
             arrival_time = closest_parts[1]
-            
+
             # Calculate time width to determine available space for headsign
             time_width = self.draw.textbbox((0, 0), arrival_time, font=self.font)[2]
             available_width = self.matrix_width - time_width - 10  # 10px padding between text and time
-            
+
             closest_headsign = truncate_text(
                 f"{mapped_route} {headsign_text}", self.font, available_width
             )
@@ -168,6 +168,12 @@ class DisplayManager:
             self.draw_right_justified_text(
                 arrival_time, 0, self.white_color, self.matrix_width
             )
+        else:
+            # Display non-train message (e.g., "No trains available") right-justified
+            if closest_arrival and closest_arrival[0]:
+                self.draw_right_justified_text(
+                    closest_arrival[0], 0, self.white_color, self.matrix_width
+                )
 
         # Display next arrival on line 2
         if is_valid_train_data(next_arrival):
@@ -178,20 +184,28 @@ class DisplayManager:
             )
             mapped_route = map_route_to_bullet(route_id)
             arrival_time = next_parts[1]
-            
+
             # Calculate time width to determine available space for headsign
             time_width = self.draw.textbbox((0, 0), arrival_time, font=self.font)[2]
             available_width = self.matrix_width - time_width - 10  # 10px padding between text and time
-            
+
             next_headsign = truncate_text(
                 f"{mapped_route} {headsign_text}", self.font, available_width
             )
 
-        self.matrix.SetImage(self.image.convert("RGB"))
+            self.draw_white_circle((0, 16), self.circle_size)
+            self.draw_colored_text(
+                f"{line_number}. {next_headsign}", (0, 16), self.blue_color, self.white_color
             )
             self.draw_right_justified_text(
                 arrival_time, 16, self.white_color, self.matrix_width
             )
+        else:
+            # Display non-train message (e.g., "") right-justified
+            if next_arrival and next_arrival[0]:
+                self.draw_right_justified_text(
+                    next_arrival[0], 16, self.white_color, self.matrix_width
+                )
 
         # Render to offscreen canvas then swap
         image_rgb = self.image.convert("RGB")
