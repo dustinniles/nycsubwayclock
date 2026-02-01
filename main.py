@@ -57,7 +57,7 @@ def cycle_display(display_manager, train_times_data):
         display_manager: DisplayManager instance
         train_times_data: List of train arrival tuples [(text, minutes), ...]
 
-    This function displays the closest arrival and cycles through the next 2-3 arrivals.
+    This function displays the closest arrival and the next arrival (max 2 trains).
     """
     if not train_times_data:
         no_trains = ("No trains available", 0)
@@ -67,8 +67,8 @@ def cycle_display(display_manager, train_times_data):
     # Closest arrival stays on line 1
     closest_arrival = train_times_data[0]
 
-    # Next arrivals to cycle through on line 2
-    next_arrivals = train_times_data[1 : Config.MAX_TRAINS_DISPLAY]
+    # Next arrivals to cycle through on line 2 (limited to 1 additional train)
+    next_arrivals = train_times_data[1:2]
 
     if not next_arrivals:
         # Only one train available
