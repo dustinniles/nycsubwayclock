@@ -67,8 +67,10 @@ def cycle_display(display_manager, train_times_data):
     # Closest arrival stays on line 1
     closest_arrival = train_times_data[0]
 
-    # Next arrivals to cycle through on line 2 (limited to 1 additional train)
-    next_arrivals = train_times_data[1:2]
+    # Next arrivals to cycle through on line 2 (capped at 1 to prevent overlap with direction text)
+    # Display can only show 2 trains total (1 closest + 1 next) without overlapping Ma/Bk direction indicators
+    max_next_trains = min(Config.MAX_TRAINS_DISPLAY - 1, 1)
+    next_arrivals = train_times_data[1:1 + max_next_trains]
 
     if not next_arrivals:
         # Only one train available

@@ -207,10 +207,6 @@ class DisplayManager:
                     next_arrival[0], 16, self.white_color, self.matrix_width
                 )
 
-        # Render to offscreen canvas then swap
-        image_rgb = self.image.convert("RGB")
-        pixels = image_rgb.load()
-        for x in range(self.matrix_width):
-            for y in range(self.matrix_height):
-                r, g, b = pixels[x, y]
-                self.matrix.SetPixel(x, y, r, g, b)
+        # Render to offscreen canvas and swap for flicker-free display
+        self.offscreen_canvas.SetImage(self.image.convert("RGB"))
+        self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
