@@ -4,7 +4,6 @@ Loads settings from environment variables with sensible defaults.
 """
 import os
 from pathlib import Path
-from typing import List
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -17,17 +16,12 @@ PROJECT_ROOT = Path(__file__).parent
 class Config:
     """Centralized configuration for the subway clock application."""
 
-    # Geographic coordinates for sunrise/sunset calculations
-    LATITUDE: float = float(os.getenv("LATITUDE", "40.682387"))
-    LONGITUDE: float = float(os.getenv("LONGITUDE", "-73.963004"))
-
     # Timezone
     TIMEZONE: str = os.getenv("TIMEZONE", "America/New_York")
 
     # Subway configuration
     SUBWAY_ROUTE: str = os.getenv("SUBWAY_ROUTE", "C")
-    STOP_IDS: List[str] = os.getenv("STOP_IDS", "A44N,A44S").split(",")
-    MAX_TRAINS_DISPLAY: int = int(os.getenv("MAX_TRAINS_DISPLAY", "4"))
+    STOP_IDS: list = os.getenv("STOP_IDS", "A44N,A44S").split(",")
     MAX_MINUTES_AWAY: int = int(os.getenv("MAX_MINUTES_AWAY", "30"))
     MAX_TRAINS_PER_DIRECTION: int = int(os.getenv("MAX_TRAINS_PER_DIRECTION", "3"))
 
@@ -37,14 +31,13 @@ class Config:
     DIRECTION_SOUTH_LABEL: str = os.getenv("DIRECTION_SOUTH_LABEL", "Bk")
 
     # Display timing (in seconds)
-    DISPLAY_REFRESH_INITIAL: int = int(os.getenv("DISPLAY_REFRESH_INITIAL", "3"))
     DISPLAY_REFRESH_CYCLE: int = int(os.getenv("DISPLAY_REFRESH_CYCLE", "5"))
 
     # Matrix hardware configuration
     MATRIX_ROWS: int = int(os.getenv("MATRIX_ROWS", "32"))
     MATRIX_COLS: int = int(os.getenv("MATRIX_COLS", "64"))
     MATRIX_CHAIN_LENGTH: int = int(os.getenv("MATRIX_CHAIN_LENGTH", "2"))
-    MATRIX_GPIO_SLOWDOWN: int = int(os.getenv("MATRIX_GPIO_SLOWDOWN", "3"))
+    MATRIX_GPIO_SLOWDOWN: int = int(os.getenv("MATRIX_GPIO_SLOWDOWN", "4"))  # Pi 4 requires 4
     MATRIX_PWM_LSB_NANOSECONDS: int = int(os.getenv("MATRIX_PWM_LSB_NANOSECONDS", "50"))
     MATRIX_PWM_BITS: int = int(os.getenv("MATRIX_PWM_BITS", "5"))
     MATRIX_HARDWARE_MAPPING: str = os.getenv("MATRIX_HARDWARE_MAPPING", "adafruit-hat")
@@ -66,9 +59,6 @@ class Config:
     # GTFS static files
     TRIPS_FILE: str = str(PROJECT_ROOT / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "trips.txt")
     STOPS_FILE: str = str(PROJECT_ROOT / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "stops.txt")
-
-    # Display line numbering offset
-    SECONDARY_INDEX_BASE: int = 2
 
     @classmethod
     def validate(cls):
