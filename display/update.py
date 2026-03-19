@@ -1,5 +1,5 @@
 import logging
-from utils.helpers import hex_to_rgb, truncate_text
+from utils.helpers import hex_to_rgb
 from PIL import Image, ImageDraw, ImageFont
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from config import Config
@@ -18,26 +18,6 @@ def map_route_to_bullet(route_id):
     ! = A train, @ = C train, # = E train
     """
     return ROUTE_TO_BULLET.get(route_id, route_id)
-
-
-def is_valid_train_data(arrival_tuple):
-    """
-    Check if arrival data represents actual train info (not error message).
-
-    Args:
-        arrival_tuple: Tuple of (arrival_text, minutes_away)
-
-    Returns:
-        bool: True if valid train data, False if error message or invalid
-    """
-    if not arrival_tuple or not arrival_tuple[0]:
-        return False
-    text = arrival_tuple[0]
-    # Check for known error messages
-    if text in ["No trains available", "Error", ""]:
-        return False
-    # Valid train data should have route ID and arrival time
-    return " " in text and len(text.split()) >= 2
 
 
 class DisplayManager:
@@ -89,7 +69,25 @@ class DisplayManager:
         self.white_color = (255, 255, 255)
         self.circle_size = self.config.FONT_SIZE - 6
 
+        # Pre-compute character widths for the fixed font
+        self._char_widths = {}
+        for char in "!@# 0123456789mABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz":
+            bbox = self.draw.textbbox((0, 0), char, font=self.font)
+            self._char_widths[char] = bbox[2] - bbox[0]
+
         logger.info(f"DisplayManager initialized: {self.matrix_width}x{self.matrix_height}")
+
+    def _text_width(self, text):
+        """Calculate text width using cached character widths."""
+        width = 0
+        for char in text:
+            if char in self._char_widths:
+                width += self._char_widths[char]
+            else:
+                bbox = self.draw.textbbox((0, 0), char, font=self.font)
+                self._char_widths[char] = bbox[2] - bbox[0]
+                width += self._char_widths[char]
+        return width
 
     def draw_colored_text_with_circles(self, text, position, route_color, default_color):
         """
@@ -118,23 +116,10 @@ class DisplayManager:
                 font=self.font,
                 fill=route_color if char in "!@#" else default_color,
             )
-            x += self.draw.textbbox((x, y), char, font=self.font)[2] - x
-
-    def draw_right_justified_text(self, text, y, color, max_width):
-        """Draw text right-justified within max_width."""
-        text_width = self.draw.textbbox((0, 0), text, font=self.font)[2]
-        x = max_width - text_width
-        self.draw.text((x, y), text, font=self.font, fill=color)
-
-    def draw_white_circle(self, position, size):
-        """Draw a white circle at the given position."""
-        x, y = position
-        offset_x = 17
-        offset_y = 1
-        self.draw.ellipse(
-            (x + offset_x, y + offset_y, x + offset_x + size, y + offset_y + size),
-            fill=self.white_color,
-        )
+            if char in self._char_widths:
+                x += self._char_widths[char]
+            else:
+                x += self.draw.textbbox((x, y), char, font=self.font)[2] - x
 
     def update_display(self, northbound_trains, southbound_trains):
         """
@@ -144,14 +129,7 @@ class DisplayManager:
             northbound_trains: List of train dicts for northbound direction
             southbound_trains: List of train dicts for southbound direction
         """
-        logger.debug(
-            f"update_display: northbound={northbound_trains}, southbound={southbound_trains}"
-        )
-
-        # Print to console for debugging
-        print(f"Displaying on matrix:")
-        print(f" - Northbound: {northbound_trains}")
-        print(f" - Southbound: {southbound_trains}")
+        logger.debug(f"Displaying: N={northbound_trains}, S={southbound_trains}")
 
         # Clear the display
         self.draw.rectangle((0, 0, self.matrix_width, self.matrix_height), fill=(0, 0, 0))
@@ -163,8 +141,7 @@ class DisplayManager:
 
             # Format and draw train listings on the right
             trains_text = self._format_trains_only(northbound_trains)
-            text_width = self.draw.textbbox((0, 0), trains_text, font=self.font)[2]
-            x_position = self.matrix_width - text_width
+            x_position = self.matrix_width - self._text_width(trains_text)
             self.draw_colored_text_with_circles(trains_text, (x_position, 0), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
@@ -178,8 +155,7 @@ class DisplayManager:
 
             # Format and draw train listings on the right
             trains_text = self._format_trains_only(southbound_trains)
-            text_width = self.draw.textbbox((0, 0), trains_text, font=self.font)[2]
-            x_position = self.matrix_width - text_width
+            x_position = self.matrix_width - self._text_width(trains_text)
             self.draw_colored_text_with_circles(trains_text, (x_position, 16), self.blue_color, self.white_color)
         else:
             # Show direction label with no trains
@@ -187,7 +163,7 @@ class DisplayManager:
             self.draw.text((0, 16), line_text, font=self.font, fill=self.white_color)
 
         # Render to offscreen canvas then swap
-        self.offscreen_canvas.SetImage(self.image.convert("RGB"))
+        self.offscreen_canvas.SetImage(self.image)
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def _format_trains_only(self, trains):
@@ -216,9 +192,7 @@ class DisplayManager:
 
             # Check if adding this train would exceed display width
             test_line = line_text + train_text
-            text_width = self.draw.textbbox((0, 0), test_line, font=self.font)[2]
-
-            if text_width <= self.matrix_width:
+            if self._text_width(test_line) <= self.matrix_width:
                 line_text += train_text
             else:
                 # Stop adding trains - we've run out of space

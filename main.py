@@ -140,9 +140,9 @@ def main():
             train_times_data = fetch_train_times(trips_content, stops_content, nyc_tz)
 
             if train_times_data:
-                logger.info(f"Fetched {len(train_times_data)} train arrivals")
+                logger.debug(f"Fetched {len(train_times_data)} train arrivals")
             else:
-                logger.warning("No train data available")
+                logger.debug("No train data available")
 
             # Display and cycle through arrivals
             cycle_display(display_manager, train_times_data)
