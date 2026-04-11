@@ -144,7 +144,7 @@ class DisplayManager:
         circle_center_x = x + self.circle_offset_x + self.circle_size // 2
         circle_center_y = y + self.circle_offset_y + self.circle_size // 2
         letter_bbox = self.draw.textbbox((0, 0), letter, font=self.bullet_font)
-        letter_x = circle_center_x - (letter_bbox[0] + letter_bbox[2]) // 2 + 1
+        letter_x = circle_center_x - (letter_bbox[0] + letter_bbox[2]) // 2 - 1
         letter_y = circle_center_y - (letter_bbox[1] + letter_bbox[3]) // 2
         self.draw.text((letter_x, letter_y), letter, font=self.bullet_font, fill=self.white_color)
 
