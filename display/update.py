@@ -52,6 +52,9 @@ class DisplayManager:
 
         # Font setup
         self.font = ImageFont.truetype(self.config.FONT_PATH, self.config.FONT_SIZE)
+        # Smaller font for route bullet glyphs — sized to fit inside the circle with 1px padding
+        bullet_font_size = int(self.config.FONT_SIZE * 0.7)
+        self.bullet_font = ImageFont.truetype(self.config.FONT_PATH, bullet_font_size)
 
         # Matrix dimensions
         self.matrix_width = self.config.MATRIX_COLS * self.config.MATRIX_CHAIN_LENGTH
@@ -140,10 +143,10 @@ class DisplayManager:
         letter = route_id[0]  # Use first character for multi-char routes (SI, GS)
         circle_center_x = x + self.circle_offset_x + self.circle_size // 2
         circle_center_y = y + self.circle_offset_y + self.circle_size // 2
-        letter_bbox = self.draw.textbbox((0, 0), letter, font=self.font)
+        letter_bbox = self.draw.textbbox((0, 0), letter, font=self.bullet_font)
         letter_x = circle_center_x - (letter_bbox[0] + letter_bbox[2]) // 2
         letter_y = circle_center_y - (letter_bbox[1] + letter_bbox[3]) // 2
-        self.draw.text((letter_x, letter_y), letter, font=self.font, fill=self.white_color)
+        self.draw.text((letter_x, letter_y), letter, font=self.bullet_font, fill=self.white_color)
 
     def _measure_train_segment(self, train, is_first):
         """Measure the pixel width of a single train entry (bullet + time)."""
