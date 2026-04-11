@@ -43,7 +43,7 @@ The display shows upcoming trains separated by direction:
 
 Each route bullet is drawn as a filled circle in the route's official MTA color with a white letter inside.
 
-Direction labels are customizable using 2-letter borough codes (Ma=Manhattan, Bk=Brooklyn, Qn=Queens, Bx=Bronx, Si=Staten Island). Use lowercase for the second letter.
+Direction labels are customizable using 2-letter borough codes (Ma=Manhattan, Bk=Brooklyn, Qn=Queens, Bx=Bronx). Use lowercase for the second letter. You can also use Nb=Northbound/Sb=Southbound or Up=Uptown/Dt=Downtown if you want.
 
 ## Hardware Requirements
 
