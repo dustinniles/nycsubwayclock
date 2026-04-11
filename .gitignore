@@ -1,5 +1,8 @@
 scheduler.log
 
+# Environment config (copy .env.example to .env and customize)
+.env
+
 # Python cache
 __pycache__/
 *.py[cod]
@@ -14,3 +17,6 @@ ENV/
 # Logs
 logs/
 *.log
+
+# OS files
+.DS_Store

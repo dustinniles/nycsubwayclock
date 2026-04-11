@@ -9,7 +9,9 @@ logger = logging.getLogger(__name__)
 
 # Simple time-based cache to avoid hitting MTA API every display cycle
 _cache = {"data": [], "timestamp": 0}
-CACHE_TTL_SECONDS = 15  # MTA feeds update roughly every 15-30 seconds
+
+# Stale cache: kept longer than _cache so we can serve old data during API outages
+_stale_cache = {"data": [], "timestamp": 0}
 
 
 def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_retries=3):
@@ -25,13 +27,15 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
 
     Returns:
         List of dicts: [{'route_id': str, 'headsign': str, 'minutes': int, 'stop_id': str}, ...]
-        Returns empty list on failure after retries.
+        Returns stale cached data on failure if available, otherwise empty list.
     """
     cfg = config or Config
+    cache_ttl = getattr(cfg, "CACHE_TTL_SECONDS", 15)
+    stale_max = getattr(cfg, "STALE_CACHE_MAX_SECONDS", 300)
 
     # Return cached data if still fresh
     now = time.monotonic()
-    if _cache["data"] and (now - _cache["timestamp"]) < CACHE_TTL_SECONDS:
+    if _cache["data"] and (now - _cache["timestamp"]) < cache_ttl:
         logger.debug("Using cached train data")
         return _cache["data"]
 
@@ -42,7 +46,6 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
 
             logger.debug(f"Initializing NYCTFeed for route {cfg.SUBWAY_ROUTE}")
             feed = NYCTFeed(
-                cfg.SUBWAY_ROUTE,
                 cfg.SUBWAY_ROUTE,
                 trips_txt=trips_stream,
                 stops_txt=stops_stream,
@@ -91,9 +94,12 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
             result = sorted(train_times, key=lambda x: x['minutes'])
             logger.debug(f"Fetched {len(result)} train arrivals")
 
-            # Update cache
+            # Update both caches on success
+            now = time.monotonic()
             _cache["data"] = result
-            _cache["timestamp"] = time.monotonic()
+            _cache["timestamp"] = now
+            _stale_cache["data"] = result
+            _stale_cache["timestamp"] = now
 
             return result
 
@@ -104,7 +110,12 @@ def fetch_train_times(trips_content, stops_content, nyc_tz, config=None, max_ret
                 logger.info(f"Retrying in {wait_time} seconds...")
                 time.sleep(wait_time)
             else:
-                logger.error("Max retries reached. Returning empty list.")
+                # All retries exhausted - try serving stale cached data
+                if _stale_cache["data"] and (time.monotonic() - _stale_cache["timestamp"]) < stale_max:
+                    stale_age = time.monotonic() - _stale_cache["timestamp"]
+                    logger.warning(f"Serving stale cached data (age: {stale_age:.0f}s)")
+                    return _stale_cache["data"]
+                logger.error("Max retries reached and no stale cache available. Returning empty list.")
                 return []
 
     return []
