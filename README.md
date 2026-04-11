@@ -7,7 +7,8 @@ Display real-time NYC subway arrival times on an LED matrix using a Raspberry Pi
 
 ## Features
 
-- Real-time subway arrival data from MTA GTFS feeds
+- Real-time subway arrival data from all MTA GTFS-RT feeds
+- **Station-based configuration** — show every train stopping at your station, including rerouted trains (e.g., F trains running on C line tracks during service changes)
 - Supports **all NYC subway routes** with official MTA colors
 - Programmatic route bullets rendered in each line's official color
 - Direction-based display showing both directions simultaneously
@@ -38,10 +39,10 @@ All NYC subway lines are supported with their official MTA colors:
 ## Display Format
 
 The display shows upcoming trains separated by direction:
-- **Line 1**: Northbound trains (e.g., "Ma" + colored A bullet + "3m")
+- **Line 1**: Northbound trains (e.g., "Ma" + colored C bullet + "3m")
 - **Line 2**: Southbound trains (e.g., "Bk" + colored F bullet + "2m")
 
-Each route bullet is drawn as a filled circle in the route's official MTA color with a white letter inside.
+Each route bullet is drawn as a filled circle in the route's official MTA color with a white letter inside. When trains from multiple lines are running (e.g., C and F during a service change), each shows its own colored bullet automatically.
 
 Direction labels are customizable using 2-letter borough codes (Ma=Manhattan, Bk=Brooklyn, Qn=Queens, Bx=Bronx). Use lowercase for the second letter. You can also use Nb=Northbound/Sb=Southbound or Up=Uptown/Dt=Downtown if you want.
 
@@ -92,7 +93,8 @@ pip install -r requirements.txt
 
 # Install RGB matrix library (follow their instructions)
 cd rpi-rgb-led-matrix
-make build-python
+make build-python PYTHON=$(which python3)
+sudo make install-python PYTHON=$(which python3)
 cd ..
 ```
 
@@ -104,19 +106,18 @@ Copy the example configuration and customize it:
 cp .env.example .env
 ```
 
-Edit `.env` to set your station. At minimum, change these three settings:
+Edit `.env` to set your station. You only need to change the stop IDs and direction labels:
 
 ```bash
-# Your subway line
-SUBWAY_ROUTE=C
-
-# Your stop IDs (find in nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt)
+# Your station's stop IDs (find in nyct-gtfs/nyct_gtfs/gtfs_static/stops.txt)
 STOP_IDS=A44N,A44S
 
 # Direction labels for your station
 DIRECTION_NORTH_LABEL=Ma
 DIRECTION_SOUTH_LABEL=Bk
 ```
+
+That's it — no route configuration needed. The clock queries all MTA feeds and shows every train stopping at your station automatically.
 
 ### Finding Your Stop IDs
 
@@ -154,13 +155,22 @@ SIMULATE_DISPLAY=true
 
 This logs the display output instead of rendering to hardware.
 
+## How It Works
+
+The clock queries all 8 MTA GTFS-RT feeds on every refresh cycle and filters results to trains stopping at your configured stop IDs. This means:
+
+- **Normal days**: Only trains that regularly serve your station appear
+- **Service changes**: Rerouted trains automatically appear with the correct colored bullet (e.g., F trains running on C line tracks show an orange F bullet)
+- **No manual reconfiguration**: You never need to update the clock when service changes occur
+
+The feeds are cached for 15 seconds, so the 8-feed sweep happens at most once per cache interval — typically taking ~2 seconds on a Pi 4.
+
 ## Configuration Options
 
 All configuration is done through the `.env` file. See `.env.example` for full documentation.
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| `SUBWAY_ROUTE` | Subway line to display (any NYC route) | C |
 | `STOP_IDS` | Comma-separated stop IDs (northbound, southbound) | A44N,A44S |
 | `MAX_TRAINS_PER_DIRECTION` | Maximum trains to show per direction | 3 |
 | `MAX_MINUTES_AWAY` | Maximum minutes out to show (1-120) | 30 |
@@ -181,23 +191,20 @@ All configuration is done through the `.env` file. See `.env.example` for full d
 
 ## Customization Examples
 
-### Different Subway Lines
+### Different Stations
 
 ```bash
-# 1/2/3 at Times Square
-SUBWAY_ROUTE=1
+# Times Square (1/2/3)
 STOP_IDS=725N,725S
 DIRECTION_NORTH_LABEL=Up
 DIRECTION_SOUTH_LABEL=Dt
 
-# N/Q/R/W at Union Square
-SUBWAY_ROUTE=N
+# Union Square (N/Q/R/W and 4/5/6)
 STOP_IDS=635N,635S
 DIRECTION_NORTH_LABEL=Up
 DIRECTION_SOUTH_LABEL=Dt
 
-# G train at Nassau Av
-SUBWAY_ROUTE=G
+# Nassau Av (G train)
 STOP_IDS=G26N,G26S
 DIRECTION_NORTH_LABEL=Qn
 DIRECTION_SOUTH_LABEL=Bk
@@ -224,10 +231,9 @@ MATRIX_GPIO_SLOWDOWN=4
 ## Troubleshooting
 
 ### "No trains available"
-- Check your `SUBWAY_ROUTE` matches your `STOP_IDS`
-- Verify stop IDs are correct in `stops.txt`
-- Check logs at `logs/subway_clock.log`
-- Configuration is validated at startup - check for error messages
+- Verify your stop IDs are correct in `stops.txt`
+- Check logs at `logs/subway_clock.log` for feed errors
+- Configuration is validated at startup — check for error messages
 
 ### Display flickering
 - Try adjusting `MATRIX_GPIO_SLOWDOWN` (increase the value)
@@ -237,6 +243,7 @@ MATRIX_GPIO_SLOWDOWN=4
 ### Import errors
 - Make sure you cloned with `--recursive` flag
 - Reinstall dependencies: `pip install -r requirements.txt`
+- Rebuild the rgbmatrix library: `make build-python PYTHON=$(which python3) && sudo make install-python PYTHON=$(which python3)` in the `rpi-rgb-led-matrix/` directory
 
 ### Permission errors on Raspberry Pi
 - Run with sudo if needed: `sudo python main.py`

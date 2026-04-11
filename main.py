@@ -110,7 +110,7 @@ def main():
         sys.exit(1)
 
     # Log configuration
-    logger.info(f"Subway Route: {Config.SUBWAY_ROUTE}")
+    logger.info(f"Querying all MTA feeds for stops: {Config.STOP_IDS}")
     logger.info(f"Stop IDs: {Config.STOP_IDS}")
     logger.info(f"Timezone: {Config.TIMEZONE}")
     logger.info(f"Display: {Config.MATRIX_COLS * Config.MATRIX_CHAIN_LENGTH}x{Config.MATRIX_ROWS}")

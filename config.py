@@ -9,17 +9,6 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Project root directory
-PROJECT_ROOT = Path(__file__).parent
-
-# Valid NYC subway routes
-VALID_ROUTES = {
-    "1", "2", "3", "4", "5", "6", "7",
-    "A", "C", "E", "B", "D", "F", "M",
-    "G", "J", "Z", "L", "N", "Q", "R", "W",
-    "S", "GS", "FS", "SR", "SI", "H",
-}
-
 # Valid Python logging levels
 VALID_LOG_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}
 
@@ -30,8 +19,9 @@ class Config:
     # Timezone
     TIMEZONE: str = os.getenv("TIMEZONE", "America/New_York")
 
-    # Subway configuration
-    SUBWAY_ROUTE: str = os.getenv("SUBWAY_ROUTE", "C")
+    # Subway configuration — configure the station stop IDs to watch.
+    # All MTA GTFS-RT feeds are queried automatically, so any train
+    # stopping at these stops (including rerouted trains) will appear.
     STOP_IDS: list = os.getenv("STOP_IDS", "A44N,A44S").split(",")
     MAX_MINUTES_AWAY: int = int(os.getenv("MAX_MINUTES_AWAY", "30"))
     MAX_TRAINS_PER_DIRECTION: int = int(os.getenv("MAX_TRAINS_PER_DIRECTION", "3"))
@@ -65,18 +55,18 @@ class Config:
     SIMULATE_DISPLAY: bool = os.getenv("SIMULATE_DISPLAY", "false").lower() == "true"
 
     # Font configuration
-    FONT_PATH: str = os.getenv("FONT_PATH", str(PROJECT_ROOT / "MTA.ttf"))
+    FONT_PATH: str = os.getenv("FONT_PATH", str(Path(__file__).parent / "MTA.ttf"))
     FONT_SIZE: int = int(os.getenv("FONT_SIZE", "16"))
 
     # Logging configuration
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
-    LOG_FILE: str = os.getenv("LOG_FILE", str(PROJECT_ROOT / "logs" / "subway_clock.log"))
+    LOG_FILE: str = os.getenv("LOG_FILE", str(Path(__file__).parent / "logs" / "subway_clock.log"))
     LOG_MAX_BYTES: int = int(os.getenv("LOG_MAX_BYTES", str(10 * 1024 * 1024)))  # 10MB default
     LOG_BACKUP_COUNT: int = int(os.getenv("LOG_BACKUP_COUNT", "5"))  # Keep 5 old logs
 
     # GTFS static files (configurable for alternate installations)
-    TRIPS_FILE: str = os.getenv("TRIPS_FILE", str(PROJECT_ROOT / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "trips.txt"))
-    STOPS_FILE: str = os.getenv("STOPS_FILE", str(PROJECT_ROOT / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "stops.txt"))
+    TRIPS_FILE: str = os.getenv("TRIPS_FILE", str(Path(__file__).parent / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "trips.txt"))
+    STOPS_FILE: str = os.getenv("STOPS_FILE", str(Path(__file__).parent / "nyct-gtfs" / "nyct_gtfs" / "gtfs_static" / "stops.txt"))
 
     @classmethod
     def validate(cls):
@@ -92,13 +82,6 @@ class Config:
 
         if not os.path.exists(cls.STOPS_FILE):
             errors.append(f"Stops file not found: {cls.STOPS_FILE}")
-
-        # Route validation
-        if cls.SUBWAY_ROUTE not in VALID_ROUTES:
-            errors.append(
-                f"SUBWAY_ROUTE '{cls.SUBWAY_ROUTE}' is not a valid NYC subway route. "
-                f"Valid routes: {', '.join(sorted(VALID_ROUTES))}"
-            )
 
         # Stop ID validation
         for stop_id in cls.STOP_IDS:
