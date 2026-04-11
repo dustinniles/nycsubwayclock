@@ -1,4 +1,4 @@
 """Display module for LED matrix."""
-from .update import DisplayManager, map_route_to_bullet
+from .update import DisplayManager, route_color_rgb, ROUTE_COLORS
 
-__all__ = ["DisplayManager", "map_route_to_bullet"]
+__all__ = ["DisplayManager", "route_color_rgb", "ROUTE_COLORS"]

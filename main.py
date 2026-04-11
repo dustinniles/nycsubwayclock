@@ -3,6 +3,7 @@ NYC Subway Clock - Main application
 Displays real-time subway arrival times on an LED matrix
 """
 import logging
+import signal
 import sys
 import time
 import pytz
@@ -48,6 +49,17 @@ def setup_logging():
 
 logger = logging.getLogger(__name__)
 
+# Shutdown flag set by signal handlers
+_shutdown_requested = False
+
+
+def _handle_shutdown_signal(signum, frame):
+    """Handle SIGTERM and SIGINT for graceful shutdown."""
+    global _shutdown_requested
+    sig_name = signal.Signals(signum).name
+    logger.info(f"Received {sig_name}, shutting down...")
+    _shutdown_requested = True
+
 
 def cycle_display(display_manager, train_times_data):
     """
@@ -77,11 +89,17 @@ def cycle_display(display_manager, train_times_data):
 
 def main():
     """Main application loop."""
+    global _shutdown_requested
+
     # Setup logging first
     setup_logging()
     logger.info("=" * 60)
     logger.info("NYC Subway Clock Starting")
     logger.info("=" * 60)
+
+    # Register signal handlers for graceful shutdown (SIGTERM from systemd, SIGINT from Ctrl+C)
+    signal.signal(signal.SIGTERM, _handle_shutdown_signal)
+    signal.signal(signal.SIGINT, _handle_shutdown_signal)
 
     # Validate configuration
     try:
@@ -107,7 +125,7 @@ def main():
 
     # Read GTFS static files once at startup
     try:
-        logger.info(f"Reading GTFS files...")
+        logger.info("Reading GTFS files...")
         with open(Config.TRIPS_FILE, "r") as f:
             trips_content = f.read()
             logger.info(f"Loaded {len(trips_content)} bytes from trips.txt")
@@ -123,6 +141,7 @@ def main():
         sys.exit(1)
 
     # Initialize display manager
+    display_manager = None
     try:
         logger.info("Initializing display manager...")
         display_manager = DisplayManager()
@@ -133,27 +152,31 @@ def main():
 
     # Main loop - fetch train data and display it
     logger.info("Entering main loop")
-    while True:
-        try:
-            # Fetch fresh train times
-            logger.debug("Fetching train times...")
-            train_times_data = fetch_train_times(trips_content, stops_content, nyc_tz)
+    try:
+        while not _shutdown_requested:
+            try:
+                # Fetch fresh train times
+                logger.debug("Fetching train times...")
+                train_times_data = fetch_train_times(trips_content, stops_content, nyc_tz)
 
-            if train_times_data:
-                logger.debug(f"Fetched {len(train_times_data)} train arrivals")
-            else:
-                logger.debug("No train data available")
+                if train_times_data:
+                    logger.debug(f"Fetched {len(train_times_data)} train arrivals")
+                else:
+                    logger.debug("No train data available")
 
-            # Display and cycle through arrivals
-            cycle_display(display_manager, train_times_data)
+                # Display and cycle through arrivals
+                cycle_display(display_manager, train_times_data)
 
-        except KeyboardInterrupt:
-            logger.info("Received keyboard interrupt, shutting down...")
-            break
-        except Exception as e:
-            logger.error(f"Unexpected error in main loop: {e}", exc_info=True)
-            # Wait a bit before retrying to avoid tight error loops
-            time.sleep(10)
+            except KeyboardInterrupt:
+                logger.info("Received keyboard interrupt, shutting down...")
+                break
+            except Exception as e:
+                logger.error(f"Unexpected error in main loop: {e}", exc_info=True)
+                # Wait a bit before retrying to avoid tight error loops
+                time.sleep(10)
+    finally:
+        if display_manager is not None:
+            display_manager.cleanup()
 
     logger.info("NYC Subway Clock shutdown complete")
 
