@@ -1,0 +1,15 @@
+[Unit]
+Description=NYC Subway Clock Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/nycsubwayclock
+ExecStart=/root/nycsubwayclock/venv/bin/python /root/nycsubwayclock/main.py
+Restart=on-failure
+TimeoutStopSec=10
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
